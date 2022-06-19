@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  SimpleCalc
+//  CountOnMe
 //
-//  Created by Vincent Saluzzo on 29/03/2019.
+//  Created by Gregory Deveaux on 19/06/2022.
 //  Copyright © 2019 Vincent Saluzzo. All rights reserved.
 //
 

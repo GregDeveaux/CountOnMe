@@ -1,14 +1,19 @@
 //
 //  ViewController.swift
-//  SimpleCalc
+//  CountOnMe
 //
 //  Created by Vincent Saluzzo on 29/03/2019.
 //  Copyright © 2019 Vincent Saluzzo. All rights reserved.
+//
+//  Revised by Gregory Deveaux on 19/06/2022.
 //
 
 import UIKit
 
 class ViewController: UIViewController {
+
+let calculateWithOperator = CalculateWithOperator()
+
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     
