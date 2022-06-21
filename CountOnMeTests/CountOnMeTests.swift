@@ -10,12 +10,12 @@ import XCTest
 
 class CountOnMeTests: XCTestCase {
 
-    var calculateWithOperator: CalculateWithOperator!
+    var calculation: Calculation!
 
         //SetUp for all tests
     override func setUp() {
         super.setUp()
-        calculateWithOperator = CalculateWithOperator()
+        calculation = Calculation()
     }
 
     override func tearDown() {
@@ -24,10 +24,14 @@ class CountOnMeTests: XCTestCase {
     }
 
     func testGivenInstanceOfCalculateWithOperator_WhenAccessingIt_ThenItExists() {
-        XCTAssertNotNil(calculateWithOperator)
+        XCTAssertNotNil(calculation)
     }
 
     func testGivenFirstNumberIsThree_WhenAddSecondNumberIsTwo_ThenResultIsFive() {
+        // Given
+        calculation.calculationTapped = "3 + 2"
+
+        XCTAssertEqual(calculation.calculationResult, 5)
 
     }
 

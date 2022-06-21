@@ -85,6 +85,7 @@
                                                                 </state>
                                                                 <connections>
                                                                     <action selector="tappedAdditionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="yx7-hT-tIu"/>
+                                                                    <action selector="tappedDivisionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="d1M-h4-qAQ"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -193,7 +194,7 @@
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pwD-eN-9tg">
                                                                 <rect key="frame" x="0.0" y="0.0" width="81" height="81"/>
                                                                 <color key="backgroundColor" systemColor="systemIndigoColor"/>
-                                                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="30"/>
+                                                                <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="36"/>
                                                                 <state key="normal" title="%">
                                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </state>
@@ -248,6 +249,7 @@
                                                                 </state>
                                                                 <connections>
                                                                     <action selector="tappedAdditionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="bfV-b9-Nre"/>
+                                                                    <action selector="tappedResetButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="Yyp-qP-o9M"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qMj-Of-bCU">
