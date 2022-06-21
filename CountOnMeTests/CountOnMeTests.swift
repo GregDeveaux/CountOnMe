@@ -10,11 +10,25 @@ import XCTest
 
 class CountOnMeTests: XCTestCase {
 
+    var calculateWithOperator: CalculateWithOperator!
+
+        //SetUp for all tests
+    override func setUp() {
+        super.setUp()
+        calculateWithOperator = CalculateWithOperator()
+    }
+
+    override func tearDown() {
+        super.tearDown()
+
+    }
+
     func testGivenInstanceOfCalculateWithOperator_WhenAccessingIt_ThenItExists() {
-        let calculateWithOperator = CalculateWithOperator()
         XCTAssertNotNil(calculateWithOperator)
     }
 
+    func testGivenFirstNumberIsThree_WhenAddSecondNumberIsTwo_ThenResultIsFive() {
 
+    }
 
 }

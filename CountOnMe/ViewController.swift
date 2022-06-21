@@ -12,18 +12,19 @@ import UIKit
 
 class ViewController: UIViewController {
 
-let calculateWithOperator = CalculateWithOperator()
+    let calculateWithOperator = CalculateWithOperator()
 
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
-    
+    @IBOutlet var operatorButtons: [UIButton]!
+
     var elements: [String] {
         return textView.text.split(separator: " ").map { "\($0)" }
     }
     
     // Error check computed variables
     var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-"
+        return elements.last != "+" && elements.last != "–"
     }
     
     var expressionHaveEnoughElement: Bool {
@@ -31,7 +32,7 @@ let calculateWithOperator = CalculateWithOperator()
     }
     
     var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-"
+        return elements.last != "+" && elements.last != "–"
     }
     
     var expressionHaveResult: Bool {
@@ -42,6 +43,12 @@ let calculateWithOperator = CalculateWithOperator()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        for button in numberButtons {
+            button.designButton()
+        }
+        for button in operatorButtons {
+            button.designButton()
+        }
     }
     
     
@@ -57,14 +64,18 @@ let calculateWithOperator = CalculateWithOperator()
         
         textView.text.append(numberText)
     }
+
+    func showAlertWrongTouch(title: String, message: String) {
+            let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alertVC, animated: true, completion: nil)
+    }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         if canAddOperator {
             textView.text.append(" + ")
         } else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
+            showAlertWrongTouch(title: "Zéro!", message: "Un operateur est déja mis !")
         }
     }
     
@@ -72,23 +83,24 @@ let calculateWithOperator = CalculateWithOperator()
         if canAddOperator {
             textView.text.append(" - ")
         } else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
+            showAlertWrongTouch(title: "Zéro!", message: "Un operateur est déja mis !")
+        }
+    }
+    @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
+        if canAddOperator {
+            textView.text.append(" x ")
+        } else {
+            showAlertWrongTouch(title: "Zéro!", message: "Un operateur est déja mis !")
         }
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         guard expressionIsCorrect else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
+            return showAlertWrongTouch(title: "Zéro!", message: "Entrez une expression correcte !")
         }
         
         guard expressionHaveEnoughElement else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
+            return showAlertWrongTouch(title: "Zéro!", message: "Démarrez un nouveau calcul !")
         }
         
         // Create local copy of operations
@@ -96,15 +108,17 @@ let calculateWithOperator = CalculateWithOperator()
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
+            let left = Float(operationsToReduce[0])!
             let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
+            let right = Float(operationsToReduce[2])!
             
-            let result: Int
+            let result: Float
             switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            default: fatalError("Unknown operator !")
+                case "+": result = left + right
+                case "-": result = left - right
+                case "x": result = left * right
+                case "÷": result = left / right
+                default: fatalError("Unknown operator !")
             }
             
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
