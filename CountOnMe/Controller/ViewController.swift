@@ -17,7 +17,8 @@ class ViewController: UIViewController {
     @IBOutlet var numberButtons: [UIButton]!
     @IBOutlet var operatorButtons: [UIButton]!
 
-    let calculation = Calculation()
+    let calculation = Calculation(operation: textView.text)
+
 
 
 //    var elements: [String] {
@@ -45,10 +46,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         designButtons()
-        textView.text = "0"
 
     }
-
 
     // Design buttons
     func designButtons() {
@@ -60,8 +59,6 @@ class ViewController: UIViewController {
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         
-        var calculationTapped = calculation.calculationTapped
-
         guard let numberText = sender.title(for: .normal) else {
             return
         }
@@ -70,8 +67,9 @@ class ViewController: UIViewController {
             textView.text = ""
             calculation.calculationTapped = textView.text
         }
-        
-        calculationTapped.append(numberText)
+        print(numberText)
+        textView.text.append(numberText)
+        print(calculationTapped)
     }
 
     func showAlertWrongTouch(title: String, message: String) {

@@ -10,61 +10,62 @@ import Foundation
 
 class Calculation {
 
-    var calculationResult: Float = 0
+    var result: Float = 0
 
-    var calculationTapped: String = "0"
+    var operation: [String] = []
 
-    var calculationElements: [String] {
-        return calculationTapped.split(separator: " ").map { "\($0)" }
+    var elements: [String] {
+        return operation.split(separator: " ").map { "\($0)" }
+    }
+
+    var expressionHaveEnoughElements: Bool {
+        return elements.count >= 3
     }
 
         // Error check computed variables
     var expressionIsCorrect: Bool {
-        return calculationElements.last != "+" && calculationElements.last != "–"
-    }
-
-    var expressionHaveEnoughElements: Bool {
-        return calculationElements.count >= 3
+        return elements.last != "+" && elements.last != "–" && elements.last != "x" && elements.last != "÷"
     }
 
     var canAddOperator: Bool {
-        return calculationElements.last != "+" && calculationElements.last != "–"
+        return elements.last != "+" && elements.last != "–" && elements.last != "x" && elements.last != "÷"
     }
 
     var expressionHaveResult: Bool {
-        return calculationTapped.firstIndex(of: "=") != nil
+        return operation.firstIndex(of: "=") != nil
     }
 
 
     func resultEqual() {
             // Create local copy of operations
-        var operationsToReduce = calculationElements
+        var operationsToReduce = elements
 
             // Iterate over operations while an operand still here
         while calculationElements.count > 1 {
-            let left = Float(operationsToReduce[0])!
+            let left = Double(operationsToReduce[0])!
             let operand = operationsToReduce[1]
-            let right = Float(operationsToReduce[2])!
+            let right = Double(operationsToReduce[2])!
 
             switch operand {
                 case "+":
-                    calculationResult = left + right
+                    result = left + right
                 case "-":
-                    calculationResult = left - right
+                    result = left - right
                 case "x":
-                    calculationResult = left * right
+                    result = left * right
                 case "÷":
-                    calculationResult = left / right
+                    result = left / right
                 case "AC":
-                    calculationResult = 0
+                    result = ""
+                    operation.removeAll()
                 default: fatalError("Unknown operator !")
             }
 
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(calculationResult)", at: 0)
+            operationsToReduce.insert("\(result)", at: 0)
         }
 
-        calculationTapped.append(" = \(operationsToReduce.first!)")
+        operation.append(" = \(operationsToReduce.first!)")
     }
 
 
