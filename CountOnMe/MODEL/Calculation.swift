@@ -8,7 +8,18 @@
 
 import Foundation
 
+protocol calculationModelDelegate {
+    func didRecieveOperationUpdate(_ operation: String)
+}
+
 class Calculation {
+
+    var delegate: calculationModelDelegate?
+
+    func requestOperation() {
+        let operation = "request operation"
+        delegate?.didRecieveOperationUpdate(operation)
+    }
 
     var result: Float = 0
 
@@ -35,16 +46,20 @@ class Calculation {
         return operation.firstIndex(of: "=") != nil
     }
 
+    var resetOperation: Bool {
+        return operation.firstIndex(of: "AC") != nil
+    }
+
 
     func resultEqual() {
             // Create local copy of operations
         var operationsToReduce = elements
 
             // Iterate over operations while an operand still here
-        while calculationElements.count > 1 {
-            let left = Double(operationsToReduce[0])!
+        while expressionHaveEnoughElements {
+            let left = Float(operationsToReduce[0])!
             let operand = operationsToReduce[1]
-            let right = Double(operationsToReduce[2])!
+            let right = Float(operationsToReduce[2])!
 
             switch operand {
                 case "+":
@@ -55,9 +70,6 @@ class Calculation {
                     result = left * right
                 case "÷":
                     result = left / right
-                case "AC":
-                    result = ""
-                    operation.removeAll()
                 default: fatalError("Unknown operator !")
             }
 
@@ -67,8 +79,5 @@ class Calculation {
 
         operation.append(" = \(operationsToReduce.first!)")
     }
-
-
-
 
 }

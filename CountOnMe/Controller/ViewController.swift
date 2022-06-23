@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet var numberButtons: [UIButton]!
     @IBOutlet var operatorButtons: [UIButton]!
 
-    let calculation = Calculation(operation: textView.text)
+    private let calculation = Calculation()
 
 
 
@@ -45,7 +45,14 @@ class ViewController: UIViewController {
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+
         designButtons()
+
+        textView.text = "0"
+
+        calculation.delegate = self
+        calculation.requestOperation()
+        didRecieveOperationUpdate(textView.text)
 
     }
 
@@ -59,17 +66,13 @@ class ViewController: UIViewController {
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         
-        guard let numberText = sender.title(for: .normal) else {
-            return
-        }
+        guard let numberText = sender.title(for: .normal) else { return }
         
         if calculation.expressionHaveResult {
-            textView.text = ""
-            calculation.calculationTapped = textView.text
+            textView.text = "0"
         }
         print(numberText)
         textView.text.append(numberText)
-        print(calculationTapped)
     }
 
     func showAlertWrongTouch(title: String, message: String) {
@@ -110,11 +113,9 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedResetButton(_ sender: UIButton) {
-        if calculation.canAddOperator {
-            textView.text.append(" AC ")
-        } else {
-            showAlertWrongTouch(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
+        print("AC")
+        guard calculation.resetOperation else { return }
+            textView.text = "0"
     }
 
 
@@ -126,6 +127,8 @@ class ViewController: UIViewController {
         guard calculation.expressionHaveEnoughElements else {
             return showAlertWrongTouch(title: "Zéro!", message: "Démarrez un nouveau calcul !")
         }
+
+        calculation.resultEqual()
         
 //        // Create local copy of operations
 //        var operationsToReduce = elements
@@ -159,5 +162,11 @@ class ViewController: UIViewController {
 //        textView.text.append(" = \(operationsToReduce.first!)")
     }
 
+}
+
+extension ViewController: calculationModelDelegate {
+    func didRecieveOperationUpdate(_ operation: String) {
+        print(operation)
+    }
 }
 
