@@ -10,49 +10,40 @@
 
 import UIKit
 
+//protocol OperationModelDelegate {
+//    func didRecieveOperationUpdate(_ operation: String)
+//}
+
 class ViewController: UIViewController {
 
+    var calculation = Calculation()
 
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     @IBOutlet var operatorButtons: [UIButton]!
 
-    private let calculation = Calculation()
+    var operation: String = "25.25 ÷ 25.37" {
+        didSet {
+            operation = textView.text
+            print("old calcul: \(oldValue) ")
+            print("new calcul: \(operation) ")
+        }
+    }
 
 
-
-//    var elements: [String] {
-//        return textView.text.split(separator: " ").map { "\($0)" }
-//    }
-//    
-//    // Error check computed variables
-//    var expressionIsCorrect: Bool {
-//        return elements.last != "+" && elements.last != "–"
-//    }
-//    
-//    var expressionHaveEnoughElement: Bool {
-//        return elements.count >= 3
-//    }
-//    
-//    var canAddOperator: Bool {
-//        return elements.last != "+" && elements.last != "–"
-//    }
-//    
-//    var expressionHaveResult: Bool {
-//        return textView.text.firstIndex(of: "=") != nil
-//    }
-    
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        textView.text = "0"
         designButtons()
 
-        textView.text = "0"
+        calculation.operation = operation
+        print("o++++++++++\(operation)")
 
-        calculation.delegate = self
-        calculation.requestOperation()
-        didRecieveOperationUpdate(textView.text)
+//        calculation.operationDelegate = self
+//        didRecieveOperationUpdate(textView.text)
+//        calculation.requestOperation()
 
     }
 
@@ -63,16 +54,26 @@ class ViewController: UIViewController {
         allButtons.forEach { $0.designButton() }
     }
 
-    // View actions
+    func initNilStartCalculation() {
+        if textView.text == "0" {
+            textView.text = ""
+        }
+    }
+
+        // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         
+        guard calculation.haveEnoughElements else { return }
         guard let numberText = sender.title(for: .normal) else { return }
-        
-        if calculation.expressionHaveResult {
+
+        initNilStartCalculation()
+
+        if calculation.hasBeenCalculate {
             textView.text = "0"
         }
-        print(numberText)
         textView.text.append(numberText)
+        print("tapped: \(textView.text!)")
+
     }
 
     func showAlertWrongTouch(title: String, message: String) {
@@ -82,91 +83,71 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
+        guard calculation.haveEnoughElements else { return }
+        print (calculation.canAddOperator)
         if calculation.canAddOperator {
             textView.text.append(" + ")
         } else {
-            showAlertWrongTouch(title: "Zéro!", message: "Un operateur est déja mis !")
+            showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
         }
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
+        guard calculation.haveEnoughElements else { return }
+        print (calculation.canAddOperator)
+
         if calculation.canAddOperator {
             textView.text.append(" - ")
         } else {
-            showAlertWrongTouch(title: "Zéro!", message: "Un operateur est déja mis !")
+            showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
         }
     }
     @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
+        guard calculation.haveEnoughElements else { return }
+        print (calculation.canAddOperator)
+
         if calculation.canAddOperator {
             textView.text.append(" x ")
         } else {
-            showAlertWrongTouch(title: "Zéro!", message: "Un operateur est déja mis !")
+            showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
         }
     }
 
     @IBAction func tappedDivisionButton(_ sender: UIButton) {
+        guard calculation.haveEnoughElements else { return }
+        print (calculation.canAddOperator)
+
         if calculation.canAddOperator {
             textView.text.append(" ÷ ")
         } else {
-            showAlertWrongTouch(title: "Zéro!", message: "Un operateur est déja mis !")
+            showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
         }
     }
 
+        // remove operation
     @IBAction func tappedResetButton(_ sender: UIButton) {
         print("AC")
-        guard calculation.resetOperation else { return }
-            textView.text = "0"
+        textView.text = "0"
     }
 
-
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard calculation.expressionIsCorrect else {
-            return showAlertWrongTouch(title: "Zéro!", message: "Entrez une expression correcte !")
+        guard calculation.haveEnoughElements else {
+            return showAlertWrongTouch(title: "Attention!", message: "Il manque un nombre !")
         }
-        
-        guard calculation.expressionHaveEnoughElements else {
-            return showAlertWrongTouch(title: "Zéro!", message: "Démarrez un nouveau calcul !")
+
+        guard !calculation.canActiveResultEqual else {
+            return showAlertWrongTouch(title: "Attention!", message: "Entrez une expression correcte !")
         }
 
         calculation.resultEqual()
-        
-//        // Create local copy of operations
-//        var operationsToReduce = elements
-//        
-//        // Iterate over operations while an operand still here
-//        while operationsToReduce.count > 1 {
-//            let left = Float(operationsToReduce[0])!
-//            let operand = operationsToReduce[1]
-//            let right = Float(operationsToReduce[2])!
-//            
-//            let result: Float
-//
-//            switch operand {
-//                case "+":
-//                    result = left + right
-//                case "-":
-//                    result = left - right
-//                case "x":
-//                    result = left * right
-//                case "÷":
-//                    result = left / right
-//                case "AC":
-//                    result = 0
-//                default: fatalError("Unknown operator !")
-//            }
-//            
-//            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-//            operationsToReduce.insert("\(result)", at: 0)
-//        }
-//        
-//        textView.text.append(" = \(operationsToReduce.first!)")
+        textView.text = calculation.operation
     }
 
 }
 
-extension ViewController: calculationModelDelegate {
-    func didRecieveOperationUpdate(_ operation: String) {
-        print(operation)
-    }
-}
+//extension ViewController: OperationModelDelegate {
+//    func didRecieveOperationUpdate(_ operation: String) {
+//        print(operation)
+//    }
+//}
 

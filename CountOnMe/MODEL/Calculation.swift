@@ -8,76 +8,81 @@
 
 import Foundation
 
-protocol calculationModelDelegate {
-    func didRecieveOperationUpdate(_ operation: String)
-}
-
 class Calculation {
 
-    var delegate: calculationModelDelegate?
+//    var operationDelegate: OperationModelDelegate?
 
-    func requestOperation() {
-        let operation = "request operation"
-        delegate?.didRecieveOperationUpdate(operation)
-    }
-
-    var result: Float = 0
-
-    var operation: [String] = []
+    var operation: String = ""
 
     var elements: [String] {
         return operation.split(separator: " ").map { "\($0)" }
     }
 
-    var expressionHaveEnoughElements: Bool {
-        return elements.count >= 3
-    }
+    var result: Float = 0
 
-        // Error check computed variables
-    var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "–" && elements.last != "x" && elements.last != "÷"
+    var haveEnoughElements: Bool {
+        return elements.count >= 3 && !(elements.count % 2 == 0)
     }
 
     var canAddOperator: Bool {
+        print("if \(String(describing: operation.last))")
         return elements.last != "+" && elements.last != "–" && elements.last != "x" && elements.last != "÷"
     }
 
-    var expressionHaveResult: Bool {
+    var canActiveResultEqual: Bool {
+        print("true Equal")
         return operation.firstIndex(of: "=") != nil
     }
 
-    var resetOperation: Bool {
-        return operation.firstIndex(of: "AC") != nil
+        // Error check computed variables
+    var hasBeenCalculate: Bool {
+        print("true result change")
+        return canActiveResultEqual && haveEnoughElements
     }
 
+//    func requestOperation() {
+//        operation = "request operation"
+//        operationDelegate?.didRecieveOperationUpdate(operation)
+//        print(operation)
+//    }
 
     func resultEqual() {
+        print("array operation: \(operation)")
+        print("array calc: \(elements)")
+
             // Create local copy of operations
         var operationsToReduce = elements
+        var resultToReduce: Float = 0
 
             // Iterate over operations while an operand still here
-        while expressionHaveEnoughElements {
+        while operationsToReduce.count >= 3 {
             let left = Float(operationsToReduce[0])!
             let operand = operationsToReduce[1]
             let right = Float(operationsToReduce[2])!
 
             switch operand {
                 case "+":
-                    result = left + right
+                    resultToReduce = left + right
                 case "-":
-                    result = left - right
+                    resultToReduce = left - right
                 case "x":
-                    result = left * right
+                    resultToReduce = left * right
                 case "÷":
-                    result = left / right
+                    resultToReduce = left / right
                 default: fatalError("Unknown operator !")
             }
+            print(resultToReduce)
 
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
+            operationsToReduce.insert("\(resultToReduce)", at: 0)
         }
 
+        result = resultToReduce
+
         operation.append(" = \(operationsToReduce.first!)")
+        print("array final: \(operation)")
+        print(result)
     }
 
 }
+
