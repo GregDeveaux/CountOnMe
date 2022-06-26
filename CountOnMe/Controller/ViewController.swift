@@ -76,49 +76,42 @@ class ViewController: UIViewController {
 
     }
 
-    func showAlertWrongTouch(title: String, message: String) {
+    private func showAlertWrongTouch(title: String, message: String) {
             let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             self.present(alertVC, animated: true, completion: nil)
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        guard calculation.haveEnoughElements else { return }
-        print (calculation.canAddOperator)
-        if calculation.canAddOperator {
-            textView.text.append(" + ")
-        } else {
-            showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
-        }
+        mathOperator(tapped: " + ")
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        guard calculation.haveEnoughElements else { return }
-        print (calculation.canAddOperator)
-
-        if calculation.canAddOperator {
-            textView.text.append(" - ")
-        } else {
-            showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
-        }
+        mathOperator(tapped: " - ")
     }
-    @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
-        guard calculation.haveEnoughElements else { return }
-        print (calculation.canAddOperator)
 
-        if calculation.canAddOperator {
-            textView.text.append(" x ")
-        } else {
-            showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
-        }
+    @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
+        mathOperator(tapped: " x ")
     }
 
     @IBAction func tappedDivisionButton(_ sender: UIButton) {
-        guard calculation.haveEnoughElements else { return }
-        print (calculation.canAddOperator)
+        mathOperator(tapped: " ÷ ")
+    }
 
+    @IBAction func tappedPercentButton(_ sender: UIButton) {
+        if (textView.text.last != nil) == calculation.canAddOperator {
+            var numberString = operation.last
+            var numberFloat = Float(numberString)
+            textView.text.append(calculation.numberWithPercent(number: numberFloat))
+        } else {
+            showAlertWrongTouch(title: "Attention!", message: "Il manque un nombre pour utiliser le % !")
+        }
+    }
+
+    private func mathOperator(tapped operand: String) {
+        print (calculation.canAddOperator)
         if calculation.canAddOperator {
-            textView.text.append(" ÷ ")
+            textView.text.append(operand)
         } else {
             showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
         }

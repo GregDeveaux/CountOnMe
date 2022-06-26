@@ -200,6 +200,7 @@
                                                                 </state>
                                                                 <connections>
                                                                     <action selector="tappedAdditionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="fP2-Qs-dfk"/>
+                                                                    <action selector="tappedPercentButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="gDe-7c-fvj"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YD6-ul-r3f">

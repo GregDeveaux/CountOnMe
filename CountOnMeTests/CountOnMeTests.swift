@@ -59,12 +59,16 @@ class CountOnMeTests: XCTestCase {
         operation("3 - 2", result: 1.0)
     }
 
-    func testGivenFirstNumberIsThree_WhenMultiplySecondNumberIsTwo_ThenResultIsFive() {
+    func testGivenFirstNumberIsThree_WhenMultiplySecondNumberIsTwo_ThenResultIsSix() {
         operation("3 x 2", result: 6.0)
     }
 
-    func testGivenFirstNumberIsThree_WhenDivideSecondNumberIsTwo_ThenResultIsFive() {
+    func testGivenFirstNumberIsThree_WhenDivideSecondNumberIsTwo_ThenResultIsOnePointfive() {
         operation("3 ÷ 2", result: 1.5)
+    }
+
+    func testGivenFirstNumberIsThree_WhenDivideSecondNumberIsTwoPercent_ThenResultIsFive() {
+        operation("3 ÷ 2 %", result: 1.5)
     }
 
     private func operation(_ operation: String, result: Float) {
