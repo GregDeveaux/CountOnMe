@@ -16,6 +16,7 @@
 		1FA43BF3224E569A00F565CB /* CountOnMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BF2224E569A00F565CB /* CountOnMeUITests.swift */; };
 		BC1851B82861228B00532EDC /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1851B72861228B00532EDC /* UIButton+Extensions.swift */; };
 		BCB2AD9F285FD1AE00BED537 /* Calculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB2AD9E285FD1AE00BED537 /* Calculation.swift */; };
+		BCCA3AF5286A363B001D6419 /* Seven Segment.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCCA3AF4286A363B001D6419 /* Seven Segment.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		1FA43BF4224E569A00F565CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC1851B72861228B00532EDC /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		BCB2AD9E285FD1AE00BED537 /* Calculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Calculation.swift; path = CountOnMe/MODEL/Calculation.swift; sourceTree = SOURCE_ROOT; };
+		BCCA3AF4286A363B001D6419 /* Seven Segment.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Seven Segment.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				BC1851B62861200F00532EDC /* View */,
 				BCB2ADA0285FD1C600BED537 /* Model */,
 				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
+				BCCA3AF4286A363B001D6419 /* Seven Segment.ttf */,
 				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
 				1FA43BDE224E569A00F565CB /* Info.plist */,
 			);
@@ -261,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */,
+				BCCA3AF5286A363B001D6419 /* Seven Segment.ttf in Resources */,
 				1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */,
 				1FA43BD8224E569900F565CB /* Main.storyboard in Resources */,
 			);
@@ -497,7 +501,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.gregDeveaux.CountOnMe;
+				PRODUCT_BUNDLE_IDENTIFIER = fr.gregdeveaux.CountOnMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -516,7 +520,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.gregDeveaux.CountOnMe;
+				PRODUCT_BUNDLE_IDENTIFIER = fr.gregdeveaux.CountOnMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

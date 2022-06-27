@@ -23,11 +23,11 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="jOk-Ck-DfL" userLabel="Main Stack View">
                                 <rect key="frame" x="15" y="39" width="790" height="1126"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" text="1+1=2" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" text="0" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
                                         <rect key="frame" x="0.0" y="0.0" width="790" height="113.5"/>
                                         <color key="backgroundColor" systemColor="labelColor"/>
                                         <color key="textColor" red="0.26655028289999999" green="1" blue="0.2370763407" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="40"/>
+                                        <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="40"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="RIt-eN-Ge2" userLabel="Buttons Stack View">

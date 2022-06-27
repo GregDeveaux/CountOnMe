@@ -18,16 +18,17 @@ class CountOnMeTests: XCTestCase {
         calculation = Calculation()
     }
 
-    func testGivenOneNumberOrOneOperand_WhenAddOtherThing_ThenOperationEnoughElements() {
+    func testGivenAddElementsOneByOne_ThenOperationEnoughElements() {
         let addOperation = ["6", " - ", "2", " x "]
 
         for part in addOperation {
             calculation.operation.append(part)
 
-            if calculation.operation.count % 2 == 0 || calculation.operation.count < 3{
-                XCTAssertFalse(calculation.haveEnoughElements)
-            } else {
-                XCTAssertTrue(calculation.haveEnoughElements)
+            if calculation.elements.count >= 3 && calculation.elements.count % 2 != 0 {
+                XCTAssertTrue(calculation.haveEnoughElementsAndInOddNumber)
+            }
+            else if calculation.elements.count < 3 && calculation.elements.count % 2 == 0  {
+                XCTAssertFalse(calculation.haveEnoughElementsAndInOddNumber)
             }
         }
     }
@@ -70,6 +71,14 @@ class CountOnMeTests: XCTestCase {
     func testGivenFirstNumberIsThree_WhenDivideSecondNumberIsTwoPercent_ThenResultIsFive() {
         operation("3 ÷ 2 %", result: 1.5)
     }
+
+//    func testGivenDivideZero_ThenResultError() {
+//        calculation.operation = "3 / 0"
+//
+//        calculation.resultEqual()
+//
+//        XCTAssertEqual(calculation.operation, "Error")
+//    }
 
     private func operation(_ operation: String, result: Float) {
         calculation.operation = operation

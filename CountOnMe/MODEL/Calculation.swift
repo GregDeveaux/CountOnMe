@@ -12,7 +12,7 @@ class Calculation {
 
 //    var operationDelegate: OperationModelDelegate?
 
-    var operation: String = ""
+    var operation: String = "0"
 
     var elements: [String] {
         return operation.split(separator: " ").map { "\($0)" }
@@ -20,8 +20,8 @@ class Calculation {
 
     var result: Float = 0
 
-    var haveEnoughElements: Bool {
-        return elements.count >= 3 && !(elements.count % 2 == 0)
+    var haveEnoughElementsAndInOddNumber: Bool {
+        return elements.count >= 3 && elements.count % 2 != 0
     }
 
     var canAddOperator: Bool {
@@ -31,13 +31,13 @@ class Calculation {
 
     var canActiveResultEqual: Bool {
         print("true Equal")
-        return operation.firstIndex(of: "=") != nil
+        return elements.firstIndex(of: "=") != nil
     }
 
         // Error check computed variables
     var hasBeenCalculate: Bool {
         print("true result change")
-        return canActiveResultEqual && haveEnoughElements
+        return canActiveResultEqual && haveEnoughElementsAndInOddNumber
     }
 
     func numberWithPercent(number: Float) -> String {
@@ -73,7 +73,11 @@ class Calculation {
                 case "x":
                     resultToReduce = left * right
                 case "÷":
-                    resultToReduce = left / right
+                    if right != 0 {
+                        resultToReduce = left / right
+                    } else {
+                        operation = "Error"
+                    }
                 default: fatalError("Unknown operator !")
             }
             print(resultToReduce)
