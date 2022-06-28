@@ -10,8 +10,6 @@ import Foundation
 
 class Calculation {
 
-//    var operationDelegate: OperationModelDelegate?
-
     var operation: String = "0"
 
     var elements: [String] {
@@ -25,7 +23,6 @@ class Calculation {
     }
 
     var canAddOperator: Bool {
-        print("if \(String(describing: operation.last))")
         return elements.last != "+" && elements.last != "–" && elements.last != "x" && elements.last != "÷"
     }
 
@@ -44,12 +41,6 @@ class Calculation {
         let result = number / 100
         return String(result)
     }
-
-//    func requestOperation() {
-//        operation = "request operation"
-//        operationDelegate?.didRecieveOperationUpdate(operation)
-//        print(operation)
-//    }
 
     func resultEqual() {
         print("array operation: \(operation)")

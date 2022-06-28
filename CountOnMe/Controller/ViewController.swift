@@ -16,9 +16,11 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var numberView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     @IBOutlet var operatorButtons: [UIButton]!
+
+    @IBOutlet weak var Screen: UIView!
 
     var calculation = Calculation()
 
@@ -29,7 +31,19 @@ class ViewController: UIViewController {
 
         designButtons()
 
-        textView.delegate = self
+        numberView.font = UIFont.init(name: "Seven Segment", size: 70)
+        numberView.layer.shadowColor = CGColor(red: 68/255, green: 255/255, blue: 60/255, alpha: 1)
+        numberView.layer.shadowOffset = CGSize(width: 3, height: 2)
+        numberView.layer.shadowOpacity = 0.9
+        numberView.layer.masksToBounds = false
+
+        Screen.layer.shadowColor = CGColor(red: 68/255, green: 255/255, blue: 60/255, alpha: 1)
+        Screen.layer.shadowOffset = CGSize(width: 2, height: 2)
+        Screen.layer.shadowOpacity = 0.4
+        Screen.layer.masksToBounds = false
+        
+
+        numberView.delegate = self
 
 //        calculation.operationDelegate = self
 //        didRecieveOperationUpdate(textView.text)
@@ -40,27 +54,27 @@ class ViewController: UIViewController {
     // Design all buttons
     func designButtons() {
         let allButtons = numberButtons + operatorButtons
-
         allButtons.forEach { $0.designButton() }
     }
 
     func initNilStartCalculation() {
-        if textView.text == "0" {
-            textView.text = ""
+        if numberView.text == "0" {
+            numberView.text = ""
         }
     }
 
         // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
-
-        textView.resignFirstResponder()
+        initNilStartCalculation()
 
         guard let numberText = sender.title(for: .normal) else { return }
 
-        textView.text.append(numberText)
-        calculation.operation = textView.text
+        numberView.resignFirstResponder()
 
-        print("tapped: \(textView.text!)")
+        numberView.text.append(numberText)
+        calculation.operation = numberView.text
+
+        print("tapped: \(numberView.text!)")
         print(calculation.elements)
 
 //        if calculation.hasBeenCalculate {
@@ -86,39 +100,20 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedPercentButton(_ sender: UIButton) {
-//        if (textView.text.last != nil) == calculation.canAddOperator {
+//        if (numberView.text.last != nil) == calculation.canAddOperator {
 //            let numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-//            if numbers.description.contains(operation.last!) {
-//                textView.text.append(calculation.numberWithPercent(number: calculation.elements.last))
+//            if numbers.description.contains(calculation.operation.last!) {
+//                numberView.text.append(calculation.numberWithPercent(number: Float(calculation.elements.last)))
 //            }
 //        } else {
 //            showAlertWrongTouch(title: "Attention!", message: "Il manque un nombre pour utiliser le % !")
 //        }
     }
 
-
-
-
-    private func showAlertWrongTouch(title: String, message: String) {
-            let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
-    }
-
-    private func mathOperator(tapped operand: String) {
-        print (calculation.canAddOperator)
-        if calculation.canAddOperator {
-            textView.text.append(operand)
-            calculation.operation = textView.text
-        } else {
-            showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
-        }
-    }
-
         // remove operation
     @IBAction func tappedResetButton(_ sender: UIButton) {
+        numberView.text = "0"
         print("AC")
-        textViewDidEndEditing(textView)
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
@@ -131,9 +126,26 @@ class ViewController: UIViewController {
             return showAlertWrongTouch(title: "Attention!", message: "Entrez une expression correcte !")
         }
 
+        numberView.resignFirstResponder()
 
         calculation.resultEqual()
-        textView.text = calculation.operation
+        numberView.text = calculation.operation
+    }
+
+    private func showAlertWrongTouch(title: String, message: String) {
+            let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alertVC, animated: true, completion: nil)
+    }
+
+    private func mathOperator(tapped operand: String) {
+        print (">>>\(operand)")
+        if calculation.canAddOperator {
+            numberView.text.append(operand)
+            calculation.operation = numberView.text
+        } else {
+            showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
+        }
     }
 
 }
@@ -141,23 +153,22 @@ class ViewController: UIViewController {
 
 extension ViewController: UITextViewDelegate {
 
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        numberView.text = "18"
+        print ("my operation begin editing")
+        return true
+    }
+
+
     func textViewDidBeginEditing(_ textView: UITextView) {
+        numberView.text = "23"
         print ("my operation begin editing")
     }
 
-    internal func textViewDidEndEditing(_ textView: UITextView) {
-        textView.text = "5"
+    func textViewDidEndEditing(_ textView: UITextView) {
     }
 
-    internal func textViewDidChange(_ textView: UITextView) {
-        print ("my operation is : \(textView.text ?? "5")")
-    }
+
 
 }
-
-//extension ViewController: OperationModelDelegate {
-//    func didRecieveOperationUpdate(_ operation: String) {
-//        print(operation)
-//    }
-//}
 
