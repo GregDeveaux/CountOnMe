@@ -39,9 +39,8 @@ class Calculation {
         return canActiveResultEqual && haveEnoughElementsAndInOddNumber
     }
 
-    func numberWithPercent(number: Float) -> String {
-        let result = number / 100
-        return String(result)
+    func numberWithPercent() -> Float {
+        return (Float(elements.last!) ?? 1)/100
     }
 
     func resultEqual() {
@@ -57,6 +56,10 @@ class Calculation {
             let left = Float(operationsToReduce[0])!
             let operators = operationsToReduce[1]
             let right = Float(operationsToReduce[2])!
+
+            if elements.contains("%") {
+                resultToReduce = numberWithPercent()
+            }
 
             switch operators {
                 case "+":

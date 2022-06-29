@@ -80,6 +80,10 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(calculation.operation, "Error")
     }
 
+    func testGivenAnumberIsTwentyFive_WhenAddPercent_ThenResultIsZeroPointTwentyFive() {
+        operation("25 %", result: 0.25)
+    }
+
     private func operation(_ operation: String, result: Float) {
         calculation.operation = operation
 
