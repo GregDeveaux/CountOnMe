@@ -91,7 +91,6 @@
                                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </state>
                                                                 <connections>
-                                                                    <action selector="tappedAdditionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="yx7-hT-tIu"/>
                                                                     <action selector="tappedDivisionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="d1M-h4-qAQ"/>
                                                                 </connections>
                                                             </button>
@@ -206,7 +205,6 @@
                                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </state>
                                                                 <connections>
-                                                                    <action selector="tappedAdditionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="fP2-Qs-dfk"/>
                                                                     <action selector="tappedPercentButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="gDe-7c-fvj"/>
                                                                 </connections>
                                                             </button>
@@ -256,7 +254,6 @@
                                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 </state>
                                                                 <connections>
-                                                                    <action selector="tappedAdditionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="bfV-b9-Nre"/>
                                                                     <action selector="tappedResetButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="Yyp-qP-o9M"/>
                                                                 </connections>
                                                             </button>

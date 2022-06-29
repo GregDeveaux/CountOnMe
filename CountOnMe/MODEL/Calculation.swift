@@ -12,6 +12,8 @@ class Calculation {
 
     var operation: String = "0"
 
+    let validCharacters = CharacterSet(charactersIn: "0123456789-+x÷%.=")
+
     var elements: [String] {
         return operation.split(separator: " ").map { "\($0)" }
     }
@@ -68,6 +70,7 @@ class Calculation {
                         resultToReduce = left / right
                     } else {
                         operation = "Error"
+                        return
                     }
                 default: fatalError("Unknown operator !")
             }

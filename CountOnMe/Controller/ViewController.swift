@@ -101,7 +101,6 @@ class ViewController: UIViewController {
 
     @IBAction func tappedPercentButton(_ sender: UIButton) {
 //        if (numberView.text.last != nil) == calculation.canAddOperator {
-//            let numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 //            if numbers.description.contains(calculation.operation.last!) {
 //                numberView.text.append(calculation.numberWithPercent(number: Float(calculation.elements.last)))
 //            }

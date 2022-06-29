@@ -72,13 +72,13 @@ class CountOnMeTests: XCTestCase {
         operation("3 ÷ 2 %", result: 1.5)
     }
 
-//    func testGivenDivideZero_ThenResultError() {
-//        calculation.operation = "3 / 0"
-//
-//        calculation.resultEqual()
-//
-//        XCTAssertEqual(calculation.operation, "Error")
-//    }
+    func testGivenDivideZero_ThenResultError() {
+        calculation.operation = "3 ÷ 0"
+
+        calculation.resultEqual()
+
+        XCTAssertEqual(calculation.operation, "Error")
+    }
 
     private func operation(_ operation: String, result: Float) {
         calculation.operation = operation
