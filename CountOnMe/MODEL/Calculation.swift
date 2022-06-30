@@ -39,9 +39,12 @@ class Calculation {
         return canActiveResultEqual && haveEnoughElementsAndInOddNumber
     }
 
-    func numberWithPercent() -> Float {
-        return (Float(elements.last!) ?? 1)/100
-    }
+//    let numberWithPercent: FloatingPointFormatStyle.Percent! {
+//        let number.Float!
+//        return FloatingPointFormatStyle.Percent(from: number)
+//    }
+
+    
 
     func resultEqual() {
         print("array operation: \(operation)")
@@ -49,7 +52,7 @@ class Calculation {
 
             // Create local copy of operations
         var operationsToReduce = elements
-        var resultToReduce: Float = 0
+        var resultToReduce: Float = 0.0
 
             // Iterate over operations while an operand still here
         while operationsToReduce.count >= 3 {
@@ -58,7 +61,7 @@ class Calculation {
             let right = Float(operationsToReduce[2])!
 
             if elements.contains("%") {
-                resultToReduce = numberWithPercent()
+//                resultToReduce = numberWithPercent()
             }
 
             switch operators {
@@ -77,10 +80,13 @@ class Calculation {
                     }
                 default: fatalError("Unknown operator !")
             }
-            print(resultToReduce)
+
+                // Use the method for substract if there is 0 after floating point and transform from Float to String
+            let resultFormatted = resultToReduce.formatted(FloatingPointFormatStyle())
+            print(resultFormatted)
 
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(resultToReduce)", at: 0)
+            operationsToReduce.insert("\(resultFormatted)", at: 0)
         }
 
         result = resultToReduce

@@ -22,10 +22,10 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NKP-P0-CEJ">
                                         <rect key="frame" x="0.0" y="0.0" width="398" height="293.66666666666669"/>
                                         <subviews>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" text="0" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" pagingEnabled="YES" editable="NO" text="0" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
                                                 <rect key="frame" x="0.0" y="0.0" width="398" height="293.66666666666669"/>
                                                 <color key="textColor" red="0.26666666666666666" green="1" blue="0.2370763407" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="40"/>
+                                                <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="36"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                         </subviews>
@@ -297,8 +297,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="Screen" destination="NKP-P0-CEJ" id="n7r-Md-6pc"/>
                         <outlet property="numberView" destination="T2H-yn-nBB" id="yqe-Yo-Sag"/>
+                        <outlet property="screen" destination="NKP-P0-CEJ" id="n7r-Md-6pc"/>
                         <outletCollection property="numberButtons" destination="lad-SR-mqj" collectionClass="NSMutableArray" id="0dq-6F-JO8"/>
                         <outletCollection property="numberButtons" destination="Raa-av-x4n" collectionClass="NSMutableArray" id="P52-Zx-bMS"/>
                         <outletCollection property="numberButtons" destination="Hkr-13-i1X" collectionClass="NSMutableArray" id="Cn1-3U-qap"/>

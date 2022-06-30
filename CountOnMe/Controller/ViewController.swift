@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     @IBOutlet var numberButtons: [UIButton]!
     @IBOutlet var operatorButtons: [UIButton]!
 
-    @IBOutlet weak var Screen: UIView!
+    @IBOutlet weak var screen: UIView!
 
     var calculation = Calculation()
 
@@ -30,18 +30,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         designButtons()
-
-        numberView.font = UIFont.init(name: "Seven Segment", size: 70)
-        numberView.layer.shadowColor = CGColor(red: 68/255, green: 255/255, blue: 60/255, alpha: 1)
-        numberView.layer.shadowOffset = CGSize(width: 3, height: 2)
-        numberView.layer.shadowOpacity = 0.9
-        numberView.layer.masksToBounds = false
-
-        Screen.layer.shadowColor = CGColor(red: 68/255, green: 255/255, blue: 60/255, alpha: 1)
-        Screen.layer.shadowOffset = CGSize(width: 2, height: 2)
-        Screen.layer.shadowOpacity = 0.4
-        Screen.layer.masksToBounds = false
-        
+        numberView.designFont()
+        screen.GreenHalo()
 
         numberView.delegate = self
 
