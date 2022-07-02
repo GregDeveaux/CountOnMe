@@ -49,7 +49,7 @@ class CountOnMeTests: XCTestCase {
             calculation.operation.append(operand)
         }
 
-        XCTAssertFalse(calculation.canAddOperator)
+        XCTAssertFalse(calculation.operationIsCurrentlyCorrect)
     }
 
     func testGivenAddition_WhenActivateEqualResult_ThenResultIsFive() {
@@ -68,8 +68,20 @@ class CountOnMeTests: XCTestCase {
         operation("3 ÷ 2", result: 1.5)
     }
 
-    func testGivenFirstNumberIsThree_WhenDivideSecondNumberIsTwoPercent_ThenResultIsFive() {
-        operation("3 ÷ 2 %", result: 1.5)
+    func testGivenThreeAddThree_WhenMultiplyByThree_ThenResultIsTwelve() {
+        operation("3 + 3 x 3", result: 12)
+    }
+
+    func testGivenThreeAddThree_WhenDivideByThree_ThenResultIsFour() {
+        operation("3 + 3 ÷ 3", result: 4)
+    }
+
+    func testGivenFirstNumberIsThree_WhenAddLetter_ThenResultIsError() {
+        calculation.operation = "3 + A"
+
+        calculation.resultEqual()
+
+        XCTAssertEqual(calculation.operation, "Unknown operator !")
     }
 
     func testGivenDivideZero_ThenResultError() {
@@ -80,9 +92,23 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(calculation.operation, "Error")
     }
 
-//    func testGivenAnumberIsTwentyFive_WhenAddPercent_ThenResultIsZeroPointTwentyFive() {
-////        operation("15 + 25 %", result: 18.75)
-//    }
+    func testGivenResultEqual_ThenIsTrue() {
+        calculation.operation = "6 + 6 = "
+
+        XCTAssertTrue(calculation.canActiveResultEqual)
+    }
+
+    func testGivenAnumberIs1020_WhenAdd29Percent_ThenResultIs1315Point8() {
+        operation("1020 + 29 %", result: 1315.8)
+    }
+
+    func testGivenAnumberIs1020_WhenSubstract29Percent_ThenResultIs1315Point8() {
+        operation("1020 - 29 %", result: 724.2)
+    }
+
+    func testGivenAnumberIs29Percent_ThenResultIs0Point29() {
+        operation("29 %", result: 0.29)
+    }
 
     private func operation(_ operation: String, result: Float) {
         calculation.operation = operation

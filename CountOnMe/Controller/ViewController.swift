@@ -29,6 +29,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let field = UITextField(frame: .zero)
+            field.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
         designButtons()
         numberView.designFont()
         screen.GreenHalo()
@@ -48,7 +51,7 @@ class ViewController: UIViewController {
     }
 
     func initNilStartCalculation() {
-        if numberView.text == "0" {
+        if calculation.state == .isOver {
             numberView.text = ""
         }
     }
@@ -56,6 +59,7 @@ class ViewController: UIViewController {
         // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         initNilStartCalculation()
+        calculation.state = .isProgress
 
         guard let numberText = sender.title(for: .normal) else { return }
 
@@ -102,6 +106,7 @@ class ViewController: UIViewController {
         // remove operation
     @IBAction func tappedResetButton(_ sender: UIButton) {
         numberView.text = "0"
+        calculation.state = .isOver
         print("AC")
     }
 
@@ -111,7 +116,7 @@ class ViewController: UIViewController {
             return showAlertWrongTouch(title: "Attention!", message: "Il manque un nombre !")
         }
 
-        guard !calculation.canActiveResultEqual else {
+        guard !calculation.canActiveResultEqual && calculation.operationIsCurrentlyCorrect else {
             return showAlertWrongTouch(title: "Attention!", message: "Entrez une expression correcte !")
         }
 
@@ -119,6 +124,7 @@ class ViewController: UIViewController {
 
         calculation.resultEqual()
         numberView.text = calculation.operation
+        calculation.state = .isOver
     }
 
     private func showAlertWrongTouch(title: String, message: String) {
@@ -129,7 +135,7 @@ class ViewController: UIViewController {
 
     private func mathOperator(tapped operand: String) {
         print (">>>\(operand)")
-        if calculation.canAddOperator {
+        if calculation.operationIsCurrentlyCorrect {
             numberView.text.append(operand)
             calculation.operation = numberView.text
         } else {

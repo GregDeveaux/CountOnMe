@@ -110,7 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				BCCA3AF3286231EA001D6419 /* Controller */,
-				BC1851B62861200F00532EDC /* View */,
+				BC1851B62861200F00532EDC /* Views */,
 				BCB2ADA0285FD1C600BED537 /* Model */,
 				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
 				BCCA3AF4286A363B001D6419 /* Seven Segment.ttf */,
@@ -138,7 +138,7 @@
 			path = CountOnMeUITests;
 			sourceTree = "<group>";
 		};
-		BC1851B62861200F00532EDC /* View */ = {
+		BC1851B62861200F00532EDC /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
@@ -147,7 +147,7 @@
 				BC6AC565286E4521001EEB36 /* UITextView+Extensions.swift */,
 				BC6AC567286E4651001EEB36 /* UIView+Extensions.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		BCB2ADA0285FD1C600BED537 /* Model */ = {

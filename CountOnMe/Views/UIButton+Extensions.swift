@@ -12,7 +12,7 @@ extension UIButton {
 
     func designButton() {
         layer.masksToBounds = true
-        layer.cornerRadius = 5
+        layer.cornerRadius = 8
 
         layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         layer.shadowOffset = CGSize(width: 5,
@@ -22,17 +22,12 @@ extension UIButton {
         layer.shadowRadius = 1.1
 
         layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        layer.borderWidth = 1
+        layer.borderWidth = 2
 
-        let circlePath = UIBezierPath(arcCenter: CGPoint(x: 40, y: 40),
-                                      radius: 35,
-                                      startAngle: 0,
-                                      endAngle: 360,
-                                      clockwise: true)
         let shapeLayer = CAShapeLayer()
-        shapeLayer.path = circlePath.cgPath
+        shapeLayer.frame = layer.bounds
+        shapeLayer.cornerRadius = 20
         shapeLayer.fillColor = UIColor.white.cgColor
-        shapeLayer.frame = bounds
         layer.addSublayer(shapeLayer)
 
         let effectBlur = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
