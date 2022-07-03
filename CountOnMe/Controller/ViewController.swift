@@ -32,6 +32,8 @@ class ViewController: UIViewController {
         let field = UITextField(frame: .zero)
             field.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
+        numberView.text = String(numberView.text.prefix(50))
+
         designButtons()
         numberView.designFont()
         screen.GreenHalo()
@@ -91,6 +93,15 @@ class ViewController: UIViewController {
 
     @IBAction func tappedDivisionButton(_ sender: UIButton) {
         mathOperator(tapped: " ÷ ")
+    }
+
+    @IBAction func tappedPointButton(_ sender: UIButton) {
+        if calculation.addPointDecimalIsCorrect {
+            numberView.text.append(".")
+            calculation.operation = numberView.text
+        } else {
+            showAlertWrongTouch(title: "Attention!", message: "Un point décimal est déja mis !")
+        }
     }
 
     @IBAction func tappedPercentButton(_ sender: UIButton) {

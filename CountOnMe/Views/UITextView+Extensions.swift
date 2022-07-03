@@ -9,6 +9,7 @@
 import UIKit
 
 extension UITextView {
+
     func designFont() {
         font = UIFont.init(name: "Seven Segment", size: 55)
         layer.shadowColor = CGColor(red: 68/255, green: 255/255, blue: 60/255, alpha: 1)

@@ -39,6 +39,10 @@ class Calculation {
         return elements.last != "+" && elements.last != "–" && elements.last != "x" && elements.last != "÷"
     }
 
+    var addPointDecimalIsCorrect: Bool {
+        return (operation.firstIndex(of: ".") == nil && operationIsCurrentlyCorrect)
+    }
+
     var canActiveResultEqual: Bool {
         print("true Equal")
         return elements.firstIndex(of: "=") != nil
@@ -102,10 +106,24 @@ class Calculation {
             }
 
                 // Use the method for substract if there is 0 after floating point and transform from Float to String
-//            let resultFormatted = resultToReduce.formatted(FloatingPointFormatStyle())
-//            print(resultFormatted)
+                // possible used formatted(FloatingPointFormatStyle(locale: Locale(identifier: "fr_FR"))) but is not works here
+            var resultFormatted: String {
+                var formattedValue = String(format: "%.7f", resultToReduce)
+
+                while formattedValue.last == "0" {
+                    formattedValue.removeLast()
+                }
+                if formattedValue.last == "." {
+                    formattedValue.removeLast()
+                }
+
+                return formattedValue
+            }
+
+            print(resultFormatted)
+            
             operationsToReduce.removeSubrange(index-1...index+1)
-            operationsToReduce.insert("\(resultToReduce)", at: index-1)
+            operationsToReduce.insert("\(resultFormatted)", at: index-1)
             print("result avant ajout: \(operationsToReduce)")
             index = 0
         }
@@ -118,4 +136,3 @@ class Calculation {
     }
 
 }
-
