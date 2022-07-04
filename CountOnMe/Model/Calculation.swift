@@ -14,11 +14,14 @@ enum State {
 
 class Calculation {
 
+        //MARK: - init calculation
+
         // create the string of the operation
     var operation: String = "0"
 
         // we don't used other characters for the operation
-    let validCharacters = CharacterSet(charactersIn: "0123456789-+x÷%.=")
+    let validNumbers = CharacterSet.decimalDigits
+    let validOperands = CharacterSet(charactersIn: "-+x÷.=")
 
     var state: State = .isOver
 
@@ -28,6 +31,10 @@ class Calculation {
     }
 
     var result: Float = 0
+
+    var index = 0
+
+        //MARK: - verify actions
 
         // verify than the operation contains what's needed
     var haveEnoughElementsAndInOddNumber: Bool {
@@ -48,17 +55,19 @@ class Calculation {
         return elements.firstIndex(of: "=") != nil
     }
 
-//    var numberWithPercent: Float {
-//        let number.Float!
-//        return FloatingPointFormatStyle.Percent(from: number)
-//    }
+    var haveEnoughElementsWithPercent: Bool {
+        return operation.rangeOfCharacter(from: validNumbers) != nil
+    }
 
-    
+    let formattedPercent: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        return formatter
+    }()
+
+        //MARK: - calculation
 
     func resultEqual() {
-        print("array operation: \(operation)")
-        print("array calc: \(elements)")
-
             // Create local copy of operations
         var operationsToReduce: [String] = elements
         print("voir \(operationsToReduce)")
@@ -66,27 +75,13 @@ class Calculation {
         var resultToReduce: Float = 0.0
 
             // Iterate over operations while an operand still here
-        while operationsToReduce.count >= 3 {
+        while operationsToReduce.count >= 3 || operationsToReduce.firstIndex(of: "%") != nil {
 
-            var index = 0
-
-            if operationsToReduce.contains("x") && (elements.contains("+") || elements.contains("-")) {
-                index = operationsToReduce.firstIndex(of: "x")!
-            }
-            else if operationsToReduce.contains("÷") && (elements.contains("+") || elements.contains("-")) {
-                index = operationsToReduce.firstIndex(of: "÷")!
-            }
-            else {
-                index = 1
-            }
+            indexPriorityOperands(first: "x", second: "÷", operation: operationsToReduce)
 
             let left = Float(operationsToReduce[index-1])!
             let operators = operationsToReduce[index]
             let right = Float(operationsToReduce[index+1])!
-
-            if elements.contains("%") {
-//                resultToReduce = numberWithPercent()
-            }
 
             switch operators {
                 case "x":
@@ -95,7 +90,7 @@ class Calculation {
                     if right != 0 {
                         resultToReduce = left / right
                     } else {
-                        operation = "Error"
+                        operation = "Error: impossible divise by 0"
                         return
                     }
                 case "+":
@@ -105,34 +100,47 @@ class Calculation {
                 default: fatalError("Unknown operator !")
             }
 
-                // Use the method for substract if there is 0 after floating point and transform from Float to String
-                // possible used formatted(FloatingPointFormatStyle(locale: Locale(identifier: "fr_FR"))) but is not works here
-            var resultFormatted: String {
-                var formattedValue = String(format: "%.7f", resultToReduce)
-
-                while formattedValue.last == "0" {
-                    formattedValue.removeLast()
-                }
-                if formattedValue.last == "." {
-                    formattedValue.removeLast()
-                }
-
-                return formattedValue
-            }
-
-            print(resultFormatted)
-            
             operationsToReduce.removeSubrange(index-1...index+1)
-            operationsToReduce.insert("\(resultFormatted)", at: index-1)
-            print("result avant ajout: \(operationsToReduce)")
-            index = 0
+            operationsToReduce.insert("\(formattedResult(resultToReduce))", at: index-1)
+            print("the formatted value = \(formattedResult(resultToReduce))")
         }
 
         result = resultToReduce
 
         operation.append(" = \(operationsToReduce.first!)")
-        print("array final: \(operation)")
-        print(result)
+        print("the calculation is: \(operation)")
+        print("the result is: \(result)")
+    }
+
+        // recover the index of the priority operand
+    func indexPriorityOperands(first operand: String, second: String, operation: [String]) {
+        if operation.contains(operand) && (elements.contains("+") || elements.contains("-")) {
+            index = operation.firstIndex(of: operand)!
+        }
+        else if operation.contains(operand) && (elements.contains("+") || elements.contains("-")) {
+            index = operation.firstIndex(of: operand)!
+        }
+        else {
+            index = 1
+        }
+    }
+
+        // format decimal with 7 numbers
+    func formattedResult(_ result: Float) -> String {
+            // Use the method for substract if there is 0 after floating point and transform from Float to String
+            // possible used formatted(FloatingPointFormatStyle(locale: Locale(identifier: "fr_FR"))) but is not works here
+        
+        var formattedValue = String(format: "%.7f", result)
+
+        while formattedValue.last == "0" {
+            formattedValue.removeLast()
+        }
+
+        if formattedValue.last == "." {
+            formattedValue.removeLast()
+        }
+
+        return formattedValue
     }
 
 }

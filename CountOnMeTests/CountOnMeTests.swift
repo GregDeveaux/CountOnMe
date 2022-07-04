@@ -89,7 +89,7 @@ class CountOnMeTests: XCTestCase {
 
         calculation.resultEqual()
 
-        XCTAssertEqual(calculation.operation, "Error")
+        XCTAssertEqual(calculation.operation, "Error: impossible divise by 0")
     }
 
     func testGivenResultEqual_ThenIsTrue() {

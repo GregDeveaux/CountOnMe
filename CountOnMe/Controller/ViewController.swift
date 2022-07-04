@@ -72,13 +72,9 @@ class ViewController: UIViewController {
 
         print("tapped: \(numberView.text!)")
         print(calculation.elements)
-
-//        if calculation.hasBeenCalculate {
-//            textView.text = "0"
-//        }
     }
 
-
+        //MARK: - Buttons
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         mathOperator(tapped: " + ")
     }
@@ -105,13 +101,14 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedPercentButton(_ sender: UIButton) {
-//        if (numberView.text.last != nil) == calculation.canAddOperator {
-//            if numbers.description.contains(calculation.operation.last!) {
-//                numberView.text.append(calculation.numberWithPercent(number: Float(calculation.elements.last)))
-//            }
-//        } else {
-//            showAlertWrongTouch(title: "Attention!", message: "Il manque un nombre pour utiliser le % !")
-//        }
+        mathOperator(tapped: "%")
+        let converter = calculation.formattedPercent.number(from: calculation.operation)!
+        calculation.operation = String(describing: converter)
+        print(numberView.text as Any)
+        print(calculation.elements)
+        print(converter as Any)
+        calculation.resultEqual()
+        calculation.state = .isOver
     }
 
         // remove operation
@@ -123,7 +120,7 @@ class ViewController: UIViewController {
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
 
-        guard calculation.haveEnoughElementsAndInOddNumber else {
+        guard calculation.haveEnoughElementsAndInOddNumber || calculation.haveEnoughElementsWithPercent else {
             return showAlertWrongTouch(title: "Attention!", message: "Il manque un nombre !")
         }
 
@@ -174,6 +171,19 @@ extension ViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
     }
 
+//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//            // get the current text, or use an empty string if that failed
+//            numberView.text = textView.text ?? ""
+//
+//            // attempt to read the range they are trying to change, or exit if we can't
+//            guard let stringRange = Range(range, in: numberView.text) else { return false }
+//
+//            // add their new text to the existing text
+//            let updatedText = numberView.text.replacingCharacters(in: stringRange, with: text)
+//
+//            // make sure the result is under 16 characters
+//            return updatedText.count <= 16
+//    }
 
 
 }
