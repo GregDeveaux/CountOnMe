@@ -47,7 +47,13 @@ class Calculation {
     }
 
     var addPointDecimalIsCorrect: Bool {
-        return (operation.firstIndex(of: ".") == nil && operationIsCurrentlyCorrect)
+        for number in elements {
+            guard number.rangeOfCharacter(from: validNumbers) != nil else { return false }
+            if number.contains(".") && number.count >= 1 {
+                return false
+            }
+        }
+        return true
     }
 
     var canActiveResultEqual: Bool {
@@ -56,7 +62,7 @@ class Calculation {
     }
 
     var haveEnoughElementsWithPercent: Bool {
-        return operation.rangeOfCharacter(from: validNumbers) != nil
+        return operation.firstIndex(of: "%") != nil
     }
 
     let formattedPercent: NumberFormatter = {
@@ -77,7 +83,7 @@ class Calculation {
             // Iterate over operations while an operand still here
         while operationsToReduce.count >= 3 || operationsToReduce.firstIndex(of: "%") != nil {
 
-            indexPriorityOperands(first: "x", second: "÷", operation: operationsToReduce)
+            indexPriorityOperands(operation: operationsToReduce)
 
             let left = Float(operationsToReduce[index-1])!
             let operators = operationsToReduce[index]
@@ -99,7 +105,10 @@ class Calculation {
                     resultToReduce = left - right
                 default: fatalError("Unknown operator !")
             }
-
+            if resultToReduce.isInfinite {
+                operation = "to infinity and beyond"
+                return
+            }
             operationsToReduce.removeSubrange(index-1...index+1)
             operationsToReduce.insert("\(formattedResult(resultToReduce))", at: index-1)
             print("the formatted value = \(formattedResult(resultToReduce))")
@@ -113,12 +122,12 @@ class Calculation {
     }
 
         // recover the index of the priority operand
-    func indexPriorityOperands(first operand: String, second: String, operation: [String]) {
-        if operation.contains(operand) && (elements.contains("+") || elements.contains("-")) {
-            index = operation.firstIndex(of: operand)!
+    func indexPriorityOperands(operation: [String]) {
+        if operation.contains("x") && (elements.contains("+") || elements.contains("-")) {
+            index = operation.firstIndex(of: "x")!
         }
-        else if operation.contains(operand) && (elements.contains("+") || elements.contains("-")) {
-            index = operation.firstIndex(of: operand)!
+        else if operation.contains("÷") && (elements.contains("+") || elements.contains("-")) {
+            index = operation.firstIndex(of: "÷")!
         }
         else {
             index = 1

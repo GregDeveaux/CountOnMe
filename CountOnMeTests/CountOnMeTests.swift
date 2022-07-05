@@ -98,6 +98,14 @@ class CountOnMeTests: XCTestCase {
         XCTAssertTrue(calculation.canActiveResultEqual)
     }
 
+    func testGivenBigOperation_ThenISInfinity() {
+        calculation.operation = "66 x 6699999999999999999999999999999999999999999 x 6"
+
+        calculation.resultEqual()
+
+        XCTAssertEqual(calculation.operation, "to infinity and beyond")
+    }
+
     func testGivenAnumberIs1020_WhenAdd29Percent_ThenResultIs1315Point8() {
         operation("1020 + 29 %", result: 1315.8)
     }

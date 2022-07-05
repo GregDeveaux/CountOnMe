@@ -16,6 +16,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
+        // MARK: - IBOutlets
     @IBOutlet weak var numberView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     @IBOutlet var operatorButtons: [UIButton]!
@@ -24,26 +25,14 @@ class ViewController: UIViewController {
 
     var calculation = Calculation()
 
-
+        // MARK: - ViewDidLoad
        // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let field = UITextField(frame: .zero)
-            field.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-
-        numberView.text = String(numberView.text.prefix(50))
-
         designButtons()
         numberView.designFont()
         screen.GreenHalo()
-
-        numberView.delegate = self
-
-//        calculation.operationDelegate = self
-//        didRecieveOperationUpdate(textView.text)
-//        calculation.requestOperation()
-
     }
 
     // Design all buttons
@@ -64,8 +53,11 @@ class ViewController: UIViewController {
         calculation.state = .isProgress
 
         guard let numberText = sender.title(for: .normal) else { return }
+        if numberView.text.first == "0" {
+            numberView.text = ""
+        }
 
-        numberView.resignFirstResponder()
+        self.numberView.resignFirstResponder()
 
         numberView.text.append(numberText)
         calculation.operation = numberView.text
@@ -74,7 +66,7 @@ class ViewController: UIViewController {
         print(calculation.elements)
     }
 
-        //MARK: - Buttons
+        //MARK: - Actions buttons
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         mathOperator(tapped: " + ")
     }
@@ -150,41 +142,6 @@ class ViewController: UIViewController {
             showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
         }
     }
-
-}
-
-
-extension ViewController: UITextViewDelegate {
-
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        numberView.text = "18"
-        print ("my operation begin editing")
-        return true
-    }
-
-
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        numberView.text = "23"
-        print ("my operation begin editing")
-    }
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-    }
-
-//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//            // get the current text, or use an empty string if that failed
-//            numberView.text = textView.text ?? ""
-//
-//            // attempt to read the range they are trying to change, or exit if we can't
-//            guard let stringRange = Range(range, in: numberView.text) else { return false }
-//
-//            // add their new text to the existing text
-//            let updatedText = numberView.text.replacingCharacters(in: stringRange, with: text)
-//
-//            // make sure the result is under 16 characters
-//            return updatedText.count <= 16
-//    }
-
 
 }
 
