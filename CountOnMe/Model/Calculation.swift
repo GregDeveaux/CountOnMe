@@ -47,10 +47,16 @@ class Calculation {
     }
 
     var addPointDecimalIsCorrect: Bool {
+        var countNumber = 0
         for number in elements {
             guard number.rangeOfCharacter(from: validNumbers) != nil else { return false }
-            if number.contains(".") && number.count >= 1 {
-                return false
+            countNumber += 1
+            var countPoint = 0
+            if number.contains(".") {
+                countPoint += 1
+                if countPoint != countNumber {
+                    return false
+                }
             }
         }
         return true
