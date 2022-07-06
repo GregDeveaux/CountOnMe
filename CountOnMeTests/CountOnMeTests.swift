@@ -106,17 +106,17 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(calculation.operation, "to infinity and beyond")
     }
 
-    func testGivenAnumberIs1020_WhenAdd29Percent_ThenResultIs1315Point8() {
-        operation("1020 + 29 %", result: 1315.8)
-    }
-
-    func testGivenAnumberIs1020_WhenSubstract29Percent_ThenResultIs1315Point8() {
-        operation("1020 - 29 %", result: 724.2)
-    }
-
-    func testGivenAnumberIs29Percent_ThenResultIs0Point29() {
-        operation("29 %", result: 0.29)
-    }
+//    func testGivenAnumberIs1020_WhenAdd29Percent_ThenResultIs1315Point8() {
+//        operation("1020 + 29 %", result: 1315.8)
+//    }
+//
+//    func testGivenAnumberIs1020_WhenSubstract29Percent_ThenResultIs1315Point8() {
+//        operation("1020 - 29 %", result: 724.2)
+//    }
+//
+//    func testGivenAnumberIs29Percent_ThenResultIs0Point29() {
+//        operation("29 %", result: 0.29)
+//    }
 
     private func operation(_ operation: String, result: Float) {
         calculation.operation = operation

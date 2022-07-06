@@ -20,7 +20,7 @@ class Calculation {
     var operation: String = "0"
 
         // we don't used other characters for the operation
-    let validNumbers = CharacterSet.decimalDigits
+    let validNumbers = CharacterSet(charactersIn: "0123456789%")
     let validOperands = CharacterSet(charactersIn: "-+x÷.=")
 
     var state: State = .isOver
@@ -41,25 +41,20 @@ class Calculation {
         return elements.count >= 3 && elements.count % 2 != 0
     }
 
-        // add an operator if there is none, percent or equal
+        // add an operator if there is none
     var operationIsCurrentlyCorrect: Bool {
         return elements.last != "+" && elements.last != "–" && elements.last != "x" && elements.last != "÷"
     }
 
     var addPointDecimalIsCorrect: Bool {
-        var countNumber = 0
-        for number in elements {
-            guard number.rangeOfCharacter(from: validNumbers) != nil else { return false }
-            countNumber += 1
-            var countPoint = 0
-            if number.contains(".") {
-                countPoint += 1
-                if countPoint != countNumber {
-                    return false
-                }
+        for element in elements {
+            if element.rangeOfCharacter(from: validNumbers) != nil {
+                return element.contains(".")
+            } else {
+                return false
             }
         }
-        return true
+        return false
     }
 
     var canActiveResultEqual: Bool {
@@ -80,6 +75,7 @@ class Calculation {
         //MARK: - calculation
 
     func resultEqual() {
+        percentBeforeResult(for: elements)
             // Create local copy of operations
         var operationsToReduce: [String] = elements
         print("voir \(operationsToReduce)")
@@ -156,6 +152,32 @@ class Calculation {
         }
 
         return formattedValue
+    }
+
+    func percentBeforeResult(for operationArray: [String] ) -> Float {
+        var result: Float = 0.0
+
+        if elements.contains("%") {
+            let index = operationArray.firstIndex(of: "%") ?? 0
+            var formatPercent: String = operationArray[index]
+            print("percent before: \(formatPercent) ")
+            formatPercent.removeLast()
+            print("percent after: \(formatPercent) ")
+            let percent = Float(formatPercent)!
+            if operationArray.contains("+") {
+                let number = Float(operationArray[index-2])!
+                result = number + (number * percent / 100)
+            }
+            else if operationArray.contains("-") {
+                let number = Float(operationArray[index-2])!
+                result = number - (number * percent / 100)
+            }
+            else {
+                result = percent / 100
+                print("percent result: \(result))")
+            }
+        }
+        return result
     }
 
 }

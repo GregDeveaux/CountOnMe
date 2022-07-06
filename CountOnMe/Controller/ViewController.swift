@@ -94,11 +94,6 @@ class ViewController: UIViewController {
 
     @IBAction func tappedPercentButton(_ sender: UIButton) {
         mathOperator(tapped: "%")
-        let converter = calculation.formattedPercent.number(from: calculation.operation)!
-        calculation.operation = String(describing: converter)
-        print(numberView.text as Any)
-        print(calculation.elements)
-        print(converter as Any)
         calculation.resultEqual()
         calculation.state = .isOver
     }
@@ -137,6 +132,7 @@ class ViewController: UIViewController {
         print (">>>\(operand)")
         if calculation.operationIsCurrentlyCorrect {
             numberView.text.append(operand)
+            print (">>>\(String(describing: numberView.text))")
             calculation.operation = numberView.text
         } else {
             showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
