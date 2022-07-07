@@ -46,16 +46,16 @@ class Calculation {
         return elements.last != "+" && elements.last != "–" && elements.last != "x" && elements.last != "÷"
     }
 
-    var addPointDecimalIsCorrect: Bool {
-        for element in elements {
-            if element.rangeOfCharacter(from: validNumbers) != nil {
-                return element.contains(".")
-            } else {
-                return false
-            }
-        }
-        return false
-    }
+//    var addPointDecimalIsCorrect: Bool {
+//        for element in elements {
+//            if element.rangeOfCharacter(from: validNumbers) != nil {
+//                return element.contains(".")
+//            } else {
+//                return false
+//            }
+//        }
+//        return false
+//    }
 
     var canActiveResultEqual: Bool {
         print("true Equal")
@@ -72,18 +72,35 @@ class Calculation {
         return formatter
     }()
 
+    var addPointDecimalIsCorrect: Bool {
+        guard let lastElement = elements.last else { return false }
+        print("decimal")
+        return !lastElement.contains(".")
+    }
+
+//    func decimalIsFirst () {
+//        if addPointDecimalIsCorrect {
+//            let elements: [String] = elements
+//            elements.removeLast()
+//            elements.last = "0."
+//        }
+//    }
+
         //MARK: - calculation
 
     func resultEqual() {
-        percentBeforeResult(for: elements)
             // Create local copy of operations
         var operationsToReduce: [String] = elements
         print("voir \(operationsToReduce)")
 
         var resultToReduce: Float = 0.0
 
+        if operationsToReduce.firstIndex(of: "%") != nil {
+            resultToReduce = percentBeforeResult(operation: operationsToReduce)
+        }
+
             // Iterate over operations while an operand still here
-        while operationsToReduce.count >= 3 || operationsToReduce.firstIndex(of: "%") != nil {
+        while operationsToReduce.count >= 3 {
 
             indexPriorityOperands(operation: operationsToReduce)
 
@@ -154,28 +171,33 @@ class Calculation {
         return formattedValue
     }
 
-    func percentBeforeResult(for operationArray: [String] ) -> Float {
+    func percentBeforeResult(operation: [String]) -> Float {
+        let operationWithPercent = operation
         var result: Float = 0.0
 
-        if elements.contains("%") {
-            let index = operationArray.firstIndex(of: "%") ?? 0
-            var formatPercent: String = operationArray[index]
-            print("percent before: \(formatPercent) ")
-            formatPercent.removeLast()
-            print("percent after: \(formatPercent) ")
-            let percent = Float(formatPercent)!
-            if operationArray.contains("+") {
-                let number = Float(operationArray[index-2])!
+        if operationWithPercent.contains("%") {
+            let index = operationWithPercent.firstIndex(of: "%") ?? 0
+
+            var formatterPercent: String = operationWithPercent[index]
+            print("percent before: \(formatterPercent) ")
+
+            formatterPercent.removeLast()
+            print("percent after: \(formatterPercent) ")
+
+            let percent = Float(formatterPercent)!
+            let number = Float(operationWithPercent[index-2])!
+
+            if operationWithPercent.contains("+") {
                 result = number + (number * percent / 100)
             }
-            else if operationArray.contains("-") {
-                let number = Float(operationArray[index-2])!
+            else if operationWithPercent.contains("-") {
                 result = number - (number * percent / 100)
             }
             else {
                 result = percent / 100
                 print("percent result: \(result))")
             }
+            print("percent result: \(result))")
         }
         return result
     }
