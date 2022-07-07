@@ -36,6 +36,7 @@ class CountOnMeTests: XCTestCase {
 
     func testGivenOperation_WhenAddEqual_ThenOperationIsCompleted() {
         calculation.operation = "6.9 / 3.68"
+
         calculation.operation.append(" = ")
 
         XCTAssertTrue(calculation.canActiveResultEqual)
@@ -76,20 +77,12 @@ class CountOnMeTests: XCTestCase {
         operation("3 + 3 ÷ 3", result: 4)
     }
 
-    func testGivenFirstNumberIsThree_WhenAddLetter_ThenResultIsError() {
-        calculation.operation = "3 + A"
-
-        calculation.resultEqual()
-
-        XCTAssertEqual(calculation.operation, "Unknown operator !")
-    }
+//    func testGivenFirstNumberIsThree_WhenAddLetter_ThenResultIsError() {
+//        verifyEqualSomething(operation: "3 + A", something: "Unknown operator !")
+//    }
 
     func testGivenDivideZero_ThenResultError() {
-        calculation.operation = "3 ÷ 0"
-
-        calculation.resultEqual()
-
-        XCTAssertEqual(calculation.operation, "Error: impossible divise by 0")
+        verifyEqualSomething(operation: "3 ÷ 0", something: "Error: impossible divise by 0")
     }
 
     func testGivenResultEqual_ThenIsTrue() {
@@ -98,26 +91,45 @@ class CountOnMeTests: XCTestCase {
         XCTAssertTrue(calculation.canActiveResultEqual)
     }
 
-    func testGivenBigOperation_ThenISInfinity() {
-        calculation.operation = "66 x 6699999999999999999999999999999999999999999 x 6"
+        // MARK: - Test point of the decimal
+    func testGivenAddSecondDecimalInTheSameNumber_ThenIsTrue() {
+        calculation.operation = "6.."
 
-        calculation.resultEqual()
-
-        XCTAssertEqual(calculation.operation, "to infinity and beyond")
+        XCTAssertFalse(calculation.addPointDecimalIsCorrect)
     }
 
-//    func testGivenAnumberIs1020_WhenAdd29Percent_ThenResultIs1315Point8() {
-//        operation("1020 + 29 %", result: 1315.8)
-//    }
-//
-//    func testGivenAnumberIs1020_WhenSubstract29Percent_ThenResultIs1315Point8() {
-//        operation("1020 - 29 %", result: 724.2)
-//    }
-//
-//    func testGivenAnumberIs29Percent_ThenResultIs0Point29() {
-//        operation("29 %", result: 0.29)
-//    }
+    func testGivenAddDecimalInFirstElement_WhenAdd32_ThenResultIs0Point32() {
+        verifyEqualSomething(operation: ".32", something: "0.32")
+    }
 
+        // MARK: - Test infinity number
+    func testGivenBigOperation_ThenISInfinity() {
+        verifyEqualSomething(operation: "66 x 6699999999999999999999999999999999999999999 x 6", something: "to infinity and beyond")
+    }
+
+
+        // MARK: - Test Percent
+    func testGivenAnumberIs1020_WhenAdd29Percent_ThenResultIs1315Point8() {
+        operation("1020 + 29%", result: 1315.8)
+    }
+
+    func testGivenAnumberIs1020_WhenSubstract29Percent_ThenResultIs1315Point8() {
+        operation("1020 - 29%", result: 724.2)
+    }
+
+    func testGivenAnumberIs5_WhenMultiply5Percent_ThenResultIs0Point25() {
+        operation("5 x 5%", result: 0.25)
+    }
+
+    func testGivenAnumberIs5_WhenDivide25Percent_ThenResultIs20() {
+        operation("5 ÷ 25%", result: 20)
+    }
+
+    func testGivenAnumberIs29Percent_ThenResultIs0Point29() {
+        operation("29%", result: 0.29)
+    }
+
+        // MARK: - calibrate an operation for test
     private func operation(_ operation: String, result: Float) {
         calculation.operation = operation
 
@@ -126,4 +138,11 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(calculation.result, result)
     }
 
+    private func verifyEqualSomething(operation: String, something: String) {
+        calculation.operation = operation
+
+        calculation.resultEqual()
+
+        XCTAssertEqual(calculation.operation, something)
+    }
 }

@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var screen: UIView!
 
     var calculation = Calculation()
+    
 
         // MARK: - ViewDidLoad
        // View Life cycles
@@ -94,8 +95,6 @@ class ViewController: UIViewController {
 
     @IBAction func tappedPercentButton(_ sender: UIButton) {
         mathOperator(tapped: "%")
-        calculation.resultEqual()
-        calculation.state = .isOver
     }
 
         // remove operation
@@ -107,7 +106,7 @@ class ViewController: UIViewController {
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
 
-        guard calculation.haveEnoughElementsAndInOddNumber || calculation.haveEnoughElementsWithPercent else {
+        guard calculation.haveEnoughElementsAndInOddNumber || calculation.haveFindElementsWithPercent else {
             return showAlertWrongTouch(title: "Attention!", message: "Il manque un nombre !")
         }
 
