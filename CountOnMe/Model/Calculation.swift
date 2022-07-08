@@ -47,7 +47,7 @@ class Calculation {
         return elements.firstIndex(of: "=") != nil
     }
 
-    var haveFindElementsWithPercent: Bool {
+    var haveFindElementWithPercent: Bool {
         return operation.firstIndex(of: "%") != nil
     }
 
@@ -68,43 +68,45 @@ class Calculation {
 
         var resultToReduce: Float = 0.0
 
-        if haveFindElementsWithPercent {
+        if haveFindElementWithPercent {
             resultToReduce = percentBeforeResult(operation: operationsToReduce)
+            operation.append(" = \(resultToReduce)")
+            return
         } else {
 
-            // Iterate over operations while an operand still here
-        while operationsToReduce.count >= 3 {
+                // Iterate over operations while an operand still here
+            while operationsToReduce.count >= 3 {
 
-            indexPriorityOperands(operation: operationsToReduce)
+                indexPriorityOperands(operation: operationsToReduce)
 
-            guard let left = Float(operationsToReduce[index-1]) else { return }
-            let operators = operationsToReduce[index]
-            guard let right = Float(operationsToReduce[index+1]) else { return }
+                guard let left = Float(operationsToReduce[index-1]) else { return }
+                let operators = operationsToReduce[index]
+                guard let right = Float(operationsToReduce[index+1]) else { return }
 
-            switch operators {
-                case "x":
-                    resultToReduce = left * right
-                case "÷":
-                    if right != 0 {
-                        resultToReduce = left / right
-                    } else {
-                        operation = "Error: impossible divise by 0"
-                        return
-                    }
-                case "+":
-                    resultToReduce = left + right
-                case "-":
-                    resultToReduce = left - right
-                default: fatalError("Unknown operator !")
+                switch operators {
+                    case "x":
+                        resultToReduce = left * right
+                    case "÷":
+                        if right != 0 {
+                            resultToReduce = left / right
+                        } else {
+                            operation = "Error: impossible divise by 0"
+                            return
+                        }
+                    case "+":
+                        resultToReduce = left + right
+                    case "-":
+                        resultToReduce = left - right
+                    default: fatalError("Unknown operator !")
+                }
+                if resultToReduce.isInfinite {
+                    operation = "to infinity and beyond"
+                    return
+                }
+                operationsToReduce.removeSubrange(index-1...index+1)
+                operationsToReduce.insert("\(formattedResult(resultToReduce))", at: index-1)
+                print("the formatted value = \(formattedResult(resultToReduce))")
             }
-            if resultToReduce.isInfinite {
-                operation = "to infinity and beyond"
-                return
-            }
-            operationsToReduce.removeSubrange(index-1...index+1)
-            operationsToReduce.insert("\(formattedResult(resultToReduce))", at: index-1)
-            print("the formatted value = \(formattedResult(resultToReduce))")
-        }
         }
 
         result = resultToReduce
@@ -134,7 +136,6 @@ class Calculation {
     private func formattedResult(_ result: Float) -> String {
             // Use the method for substract if there is 0 after floating point and transform from Float to String
             // possible used formatted(FloatingPointFormatStyle(locale: Locale(identifier: "fr_FR"))) but is not works here
-        
         var formattedValue = String(format: "%.7f", result)
 
         while formattedValue.last == "0" {
@@ -148,14 +149,8 @@ class Calculation {
         return formattedValue
     }
 
-    var decimalIsFirst: String? {
-        didSet {
-            if operation.first == "." {
-                operation = "0."
-            }
-        }
-    }
 
+    
         //MARK: - calculation percent operations
         // Calculate the different results according to the operand or the first element in the operation
 

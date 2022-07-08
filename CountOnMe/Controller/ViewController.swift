@@ -10,9 +10,9 @@
 
 import UIKit
 
-//protocol OperationModelDelegate {
-//    func didRecieveOperationUpdate(_ operation: String)
-//}
+    //protocol OperationModelDelegate {
+    //    func didRecieveOperationUpdate(_ operation: String)
+    //}
 
 class ViewController: UIViewController {
 
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     
 
         // MARK: - ViewDidLoad
-       // View Life cycles
+        // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         screen.GreenHalo()
     }
 
-    // Design all buttons
+        // Design all buttons
     func designButtons() {
         let allButtons = numberButtons + operatorButtons
         allButtons.forEach { $0.designButton() }
@@ -50,15 +50,13 @@ class ViewController: UIViewController {
 
         // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
-        initNilStartCalculation()
+        guard numberView.text.contains(".") else {
+        return initNilStartCalculation()
+        }
+
         calculation.state = .isProgress
 
         guard let numberText = sender.title(for: .normal) else { return }
-        if numberView.text.first == "0" {
-            numberView.text = ""
-        }
-
-        self.numberView.resignFirstResponder()
 
         numberView.text.append(numberText)
         calculation.operation = numberView.text
@@ -94,7 +92,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedPercentButton(_ sender: UIButton) {
-        mathOperator(tapped: "%")
+        if numberView.text.last != "%" {
+            mathOperator(tapped: "%")
+            calculation.resultEqual()
+            numberView.text = calculation.operation
+            calculation.state = .isOver
+        }
     }
 
         // remove operation
@@ -106,7 +109,7 @@ class ViewController: UIViewController {
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
 
-        guard calculation.haveEnoughElementsAndInOddNumber || calculation.haveFindElementsWithPercent else {
+        guard calculation.haveEnoughElementsAndInOddNumber || calculation.haveFindElementWithPercent else {
             return showAlertWrongTouch(title: "Attention!", message: "Il manque un nombre !")
         }
 
@@ -122,9 +125,9 @@ class ViewController: UIViewController {
     }
 
     private func showAlertWrongTouch(title: String, message: String) {
-            let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertVC, animated: true, completion: nil)
     }
 
     private func mathOperator(tapped operand: String) {
