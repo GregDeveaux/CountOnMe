@@ -77,10 +77,6 @@ class CountOnMeTests: XCTestCase {
         operation("3 + 3 ÷ 3", result: 4)
     }
 
-//    func testGivenFirstNumberIsThree_WhenAddLetter_ThenResultIsError() {
-//        verifyEqualSomething(operation: "3 + A", something: "Unknown operator !")
-//    }
-
     func testGivenDivideZero_ThenResultError() {
         verifyEqualSomething(operation: "3 ÷ 0", something: "Error: impossible divise by 0")
     }
@@ -92,15 +88,24 @@ class CountOnMeTests: XCTestCase {
     }
 
         // MARK: - Test point of the decimal
-    func testGivenAddSecondDecimalInTheSameNumber_ThenIsTrue() {
+    func testGivenTwoDecimalInTheSameNumber_ThenIsFalse() {
         calculation.operation = "6.."
 
         XCTAssertFalse(calculation.addPointDecimalIsCorrect)
     }
 
-    func testGivenAddDecimalInFirstElement_WhenAdd32_ThenResultIs0Point32() {
-        verifyEqualSomething(operation: ".32", something: "0.32")
+    func testGivenNumberSixWithDecimalWithoutNextNumber_WhenAddOperand_ThenIsFalse() {
+        calculation.operation = "6. +"
+
+        XCTAssertFalse(calculation.operationIsCurrentlyCorrect)
     }
+
+    func testGivenNumberSixWithOperand_WhenAddDecimalPoint_ThenIsFalse() {
+        calculation.operation = "6 + ."
+
+        XCTAssertFalse(calculation.operationIsCurrentlyCorrect)
+    }
+
 
         // MARK: - Test infinity number
     func testGivenBigOperation_ThenISInfinity() {

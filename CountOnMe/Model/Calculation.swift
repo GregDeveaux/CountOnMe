@@ -39,7 +39,7 @@ class Calculation {
 
         // add an operator if there is none
     var operationIsCurrentlyCorrect: Bool {
-        return elements.last != "+" && elements.last != "–" && elements.last != "x" && elements.last != "÷"
+        return elements.last != "+" && elements.last != "–" && elements.last != "x" && elements.last != "÷" && elements.last != "."
     }
 
     var canActiveResultEqual: Bool {
@@ -71,9 +71,9 @@ class Calculation {
         if haveFindElementWithPercent {
             resultToReduce = percentBeforeResult(operation: operationsToReduce)
             operation.append(" = \(resultToReduce)")
+            result = resultToReduce
             return
         } else {
-
                 // Iterate over operations while an operand still here
             while operationsToReduce.count >= 3 {
 
@@ -159,7 +159,7 @@ class Calculation {
 
         if let index = operation.firstIndex(where: { $0.contains("%") }) {
             var formatterPercent: String = operation[index]
-            print("percent before: \(formatterPercent) ")
+            print("percent before: \(formatterPercent) and index = \(index)")
 
             formatterPercent.removeLast()
             print("percent after: \(formatterPercent) ")
@@ -167,7 +167,6 @@ class Calculation {
             if let percent = Float(formatterPercent) {
                 if index == 0 {
                     result = percent / 100
-                    return result
                 }
                 else {
                     if let number = Float(operation[index-2]) {

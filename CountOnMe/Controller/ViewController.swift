@@ -10,10 +10,6 @@
 
 import UIKit
 
-    //protocol OperationModelDelegate {
-    //    func didRecieveOperationUpdate(_ operation: String)
-    //}
-
 class ViewController: UIViewController {
 
         // MARK: - IBOutlets
@@ -50,10 +46,10 @@ class ViewController: UIViewController {
 
         // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
-        guard numberView.text.contains(".") else {
-        return initNilStartCalculation()
+        if numberView.text != "0." {
+            initNilStartCalculation()
         }
-
+        
         calculation.state = .isProgress
 
         guard let numberText = sender.title(for: .normal) else { return }
@@ -92,7 +88,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedPercentButton(_ sender: UIButton) {
-        if numberView.text.last != "%" {
+        if numberView.text.last != "%" && calculation.operationIsCurrentlyCorrect {
             mathOperator(tapped: "%")
             calculation.resultEqual()
             numberView.text = calculation.operation
@@ -117,8 +113,6 @@ class ViewController: UIViewController {
             return showAlertWrongTouch(title: "Attention!", message: "Entrez une expression correcte !")
         }
 
-        numberView.resignFirstResponder()
-
         calculation.resultEqual()
         numberView.text = calculation.operation
         calculation.state = .isOver
@@ -132,11 +126,17 @@ class ViewController: UIViewController {
 
     private func mathOperator(tapped operand: String) {
         print (">>>\(operand)")
-        if calculation.operationIsCurrentlyCorrect {
+        if calculation.operationIsCurrentlyCorrect && calculation.state != .isOver {
             numberView.text.append(operand)
             print (">>>\(String(describing: numberView.text))")
             calculation.operation = numberView.text
-        } else {
+        }
+        else if calculation.state == .isOver {
+            calculation.state = .isProgress
+            numberView.text = String(calculation.result)
+            numberView.text.append(operand)
+        }
+        else {
             showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
         }
     }
