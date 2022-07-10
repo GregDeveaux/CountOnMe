@@ -19,12 +19,21 @@ class CountOnMeUITest: XCTestCase {
         continueAfterFailure = false
     }
 
+    func testButton() throws {
+        let elements = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "–", "x", "÷", "=", "%", "."]
+
+        for element in elements {
+            XCTAssertTrue(app.buttons[element].exists)
+        }
+    }
+
     func testFivePlusFiveEqualTen() throws {
         let staticTextFive = app/*@START_MENU_TOKEN@*/.buttons["5"].staticTexts["5"]/*[[".buttons[\"5\"].staticTexts[\"5\"]",".staticTexts[\"5\"]"],[[[-1,1],[-1,0]]],[1]]@END_MENU_TOKEN@*/
         staticTextFive.tap()
         app/*@START_MENU_TOKEN@*/.buttons["+"].staticTexts["+"]/*[[".buttons[\"+\"].staticTexts[\"+\"]",".staticTexts[\"+\"]"],[[[-1,1],[-1,0]]],[1]]@END_MENU_TOKEN@*/.tap()
         staticTextFive.tap()
         app.buttons["="].tap()
+
         app.textViews.containing(.staticText, identifier:"5 + 5 = 10")
     }
 
@@ -41,6 +50,7 @@ class CountOnMeUITest: XCTestCase {
         app/*@START_MENU_TOKEN@*/.staticTexts["1"]/*[[".buttons[\"1\"].staticTexts[\"1\"]",".staticTexts[\"1\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         app/*@START_MENU_TOKEN@*/.staticTexts["0"]/*[[".buttons[\"0\"].staticTexts[\"0\"]",".staticTexts[\"0\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         app/*@START_MENU_TOKEN@*/.staticTexts["%"]/*[[".buttons[\"%\"].staticTexts[\"%\"]",".staticTexts[\"%\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+
         app.textViews.containing(.staticText, identifier:"6.987432 - 10% = 6.2886887")
     }
 
@@ -55,6 +65,7 @@ class CountOnMeUITest: XCTestCase {
         app.buttons["+"].tap()
         app.buttons["1"].tap()
         app.buttons["="].tap()
+        
         app.textViews.containing(.staticText, identifier:"6 ÷ 2 x 9 - 6 + 1 = -4.6666665")
     }
 
@@ -84,6 +95,23 @@ class CountOnMeUITest: XCTestCase {
         scrollViewQuery(result: "9 ÷ ")
     }
 
+    func testAlertEqualIfNotAllElements() throws {
+        app.buttons["9"].tap()
+        app.buttons["="].tap()
+
+        scrollViewQuery(result: "9")
+    }
+
+    func testAlertEqualIfLastElementIsNotOk() throws {
+        app.buttons["9"].tap()
+        app.buttons["+"].tap()
+        app.buttons["5"].tap()
+        app.buttons["x"].tap()
+        app.buttons["="].tap()
+
+        scrollViewQuery(result: "9 + 5")
+    }
+
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
             // This measures how long it takes to launch your application.
@@ -93,9 +121,18 @@ class CountOnMeUITest: XCTestCase {
         }
     }
 
+
     private func scrollViewQuery(result: String) {
         let scrollViewsQuery = app.alerts["Attention!"].scrollViews
         scrollViewsQuery.otherElements.buttons["OK"].tap()
         app.textViews.containing(.staticText, identifier:"result")
+        screenShotTest()
+    }
+
+    private func screenShotTest() {
+        let fullScreenshot = XCUIScreen.main.screenshot()
+        let screenshot = XCTAttachment(screenshot: fullScreenshot)
+        screenshot.lifetime = .keepAlways
+        add(screenshot)
     }
 }

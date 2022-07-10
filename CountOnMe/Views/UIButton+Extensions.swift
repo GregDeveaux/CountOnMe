@@ -30,7 +30,7 @@ extension UIButton {
         shapeLayer.fillColor = UIColor.white.cgColor
         layer.addSublayer(shapeLayer)
 
-        let effectBlur = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+//        let effectBlur = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
 //        layer.addSublayer(effectBlur)
     }
 

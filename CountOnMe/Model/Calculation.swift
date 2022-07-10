@@ -33,6 +33,7 @@ class Calculation {
         //MARK: - verify actions
         // set of computed proporties for the verifications
 
+        // valid to calculate operation
     var haveEnoughElementsAndInOddNumber: Bool {
         return elements.count >= 3 && elements.count % 2 != 0
     }
@@ -104,8 +105,8 @@ class Calculation {
                     return
                 }
                 operationsToReduce.removeSubrange(index-1...index+1)
-                operationsToReduce.insert("\(formattedResult(resultToReduce))", at: index-1)
-                print("the formatted value = \(formattedResult(resultToReduce))")
+                operationsToReduce.insert("\(resultToReduce)", at: index-1)
+                print("the formatted value = \(resultToReduce)")
             }
         }
 
@@ -128,27 +129,6 @@ class Calculation {
             index = 1
         }
     }
-
-
-        //MARK: - formatted decimal
-        // format decimal with 7 numbers
-
-    private func formattedResult(_ result: Float) -> String {
-            // Use the method for substract if there is 0 after floating point and transform from Float to String
-            // possible used formatted(FloatingPointFormatStyle(locale: Locale(identifier: "fr_FR"))) but is not works here
-        var formattedValue = String(format: "%.7f", result)
-
-        while formattedValue.last == "0" {
-            formattedValue.removeLast()
-        }
-
-        if formattedValue.last == "." {
-            formattedValue.removeLast()
-        }
-
-        return formattedValue
-    }
-
 
     
         //MARK: - calculation percent operations
