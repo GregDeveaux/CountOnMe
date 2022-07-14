@@ -86,6 +86,7 @@ class CountOnMeTests: XCTestCase {
 
         XCTAssertTrue(calculation.canActiveResultEqual)
     }
+    
 
         // MARK: - Test point of the decimal
     func testGivenTwoDecimalInTheSameNumber_ThenIsFalse() {
@@ -104,12 +105,6 @@ class CountOnMeTests: XCTestCase {
         calculation.operation = "6 + ."
 
         XCTAssertFalse(calculation.operationIsCurrentlyCorrect)
-    }
-
-
-        // MARK: - Test infinity number
-    func testGivenBigOperation_ThenISInfinity() {
-        verifyEqualSomething(operation: "66 x 6699999999999999999999999999999999999999999 x 6", something: "to infinity and beyond")
     }
 
 
@@ -133,6 +128,7 @@ class CountOnMeTests: XCTestCase {
     func testGivenAnumberIs29Percent_ThenResultIs0Point29() {
         operation("29%", result: 0.29)
     }
+
 
         // MARK: - calibrate an operation for test
     private func operation(_ operation: String, result: Double) {
