@@ -135,7 +135,7 @@ class CountOnMeTests: XCTestCase {
     }
 
         // MARK: - calibrate an operation for test
-    private func operation(_ operation: String, result: Float) {
+    private func operation(_ operation: String, result: Double) {
         calculation.operation = operation
 
         calculation.resultEqual()

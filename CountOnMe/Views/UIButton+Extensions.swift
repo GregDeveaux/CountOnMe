@@ -29,9 +29,5 @@ extension UIButton {
         shapeLayer.cornerRadius = 20
         shapeLayer.fillColor = UIColor.white.cgColor
         layer.addSublayer(shapeLayer)
-
-//        let effectBlur = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
-//        layer.addSublayer(effectBlur)
     }
-
 }

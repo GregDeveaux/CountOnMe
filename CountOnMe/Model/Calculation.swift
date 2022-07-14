@@ -25,7 +25,7 @@ class Calculation {
         return operation.split(separator: " ").map{ "\($0)" }
     }
 
-    var result: Float = 0
+    var result: Double = 0
 
     var index = 0
 
@@ -67,7 +67,7 @@ class Calculation {
         var operationsToReduce: [String] = elements
         print("voir \(operationsToReduce)")
 
-        var resultToReduce: Float = 0.0
+        var resultToReduce: Double = 0.0
 
         if haveFindElementWithPercent {
             resultToReduce = percentBeforeResult(operation: operationsToReduce)
@@ -80,9 +80,9 @@ class Calculation {
 
                 indexPriorityOperands(operation: operationsToReduce)
 
-                guard let left = Float(operationsToReduce[index-1]) else { return }
+                guard let left = Double(operationsToReduce[index-1]) else { return }
                 let operators = operationsToReduce[index]
-                guard let right = Float(operationsToReduce[index+1]) else { return }
+                guard let right = Double(operationsToReduce[index+1]) else { return }
 
                 switch operators {
                     case "x":
@@ -105,8 +105,8 @@ class Calculation {
                     return
                 }
                 operationsToReduce.removeSubrange(index-1...index+1)
-                operationsToReduce.insert("\(resultToReduce)", at: index-1)
-                print("the formatted value = \(resultToReduce)")
+                operationsToReduce.insert("\(formattedResult(resultToReduce))", at: index-1)
+                print("the formatted value = \(formattedResult(resultToReduce))")
             }
         }
 
@@ -130,12 +130,31 @@ class Calculation {
         }
     }
 
+
+
+        //MARK: - formatted decimal
+        // format decimal with 7 numbers
+
+    private func formattedResult(_ result: Double) -> String {
+            // Use the method for substract if there is 0 after floating point and transform from Float to String
+        let numberFormat = NumberFormatter()
+
+        numberFormat.maximumFractionDigits = 7
+        numberFormat.alwaysShowsDecimalSeparator = false
+
+        let number = NSNumber(value: result)
+        guard let formattedValue = numberFormat.string(from: number) else { return "0" }
+
+        return formattedValue
+    }
+
+
     
         //MARK: - calculation percent operations
         // Calculate the different results according to the operand or the first element in the operation
 
-    func percentBeforeResult(operation: [String]) -> Float {
-        var result: Float = 0.0
+    func percentBeforeResult(operation: [String]) -> Double {
+        var result: Double = 0.0
 
         if let index = operation.firstIndex(where: { $0.contains("%") }) {
             var formatterPercent: String = operation[index]
@@ -144,12 +163,12 @@ class Calculation {
             formatterPercent.removeLast()
             print("percent after: \(formatterPercent) ")
 
-            if let percent = Float(formatterPercent) {
+            if let percent = Double(formatterPercent) {
                 if index == 0 {
                     result = percent / 100
                 }
                 else {
-                    if let number = Float(operation[index-2]) {
+                    if let number = Double(operation[index-2]) {
                         result = percentOperationWithOperand(operation: operation, number: number, percent: percent)
                     }
                 }
@@ -159,7 +178,7 @@ class Calculation {
         return result
     }
 
-    func percentOperationWithOperand(operation: [String], number: Float, percent: Float) -> Float {
+    func percentOperationWithOperand(operation: [String], number: Double, percent: Double) -> Double {
         switch operation {
             case _ where operation.contains("x"):
                 result = number * (percent / 100)

@@ -44,7 +44,9 @@ class ViewController: UIViewController {
         }
     }
 
-        // View actions
+
+        //MARK: - Actions buttons
+
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         if numberView.text != "0." {
             initNilStartCalculation()
@@ -61,7 +63,6 @@ class ViewController: UIViewController {
         print(calculation.elements)
     }
 
-        //MARK: - Actions buttons
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         mathOperator(tapped: " + ")
     }
@@ -96,7 +97,7 @@ class ViewController: UIViewController {
         }
     }
 
-        // remove operation
+        // reset operation
     @IBAction func tappedResetButton(_ sender: UIButton) {
         numberView.text = "0"
         calculation.state = .isOver
@@ -118,12 +119,6 @@ class ViewController: UIViewController {
         calculation.state = .isOver
     }
 
-    private func showAlertWrongTouch(title: String, message: String) {
-        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertVC, animated: true, completion: nil)
-    }
-
     private func mathOperator(tapped operand: String) {
         print (">>>\(operand)")
         if calculation.operationIsCurrentlyCorrect && calculation.state != .isOver {
@@ -140,6 +135,15 @@ class ViewController: UIViewController {
             showAlertWrongTouch(title: "Attention!", message: "Un operateur est déja mis !")
         }
     }
+
+        //MARK: - PopIn Alert
+
+    private func showAlertWrongTouch(title: String, message: String) {
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertVC, animated: true, completion: nil)
+    }
+
 
 }
 
