@@ -26,6 +26,9 @@ class Calculation {
     }
 
     var result: Double = 0
+    var resultIsFormat: String {
+        formattedResult(result)
+    }
 
     var index = 0
 

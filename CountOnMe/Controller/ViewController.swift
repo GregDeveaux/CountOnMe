@@ -128,7 +128,7 @@ class ViewController: UIViewController {
         }
         else if calculation.state == .isOver {
             calculation.state = .isProgress
-            numberView.text = String(calculation.result)
+            numberView.text = String(calculation.resultIsFormat)
             numberView.text.append(operand)
         }
         else {

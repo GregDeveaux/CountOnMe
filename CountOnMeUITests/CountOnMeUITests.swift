@@ -112,6 +112,20 @@ class CountOnMeUITest: XCTestCase {
         scrollViewQuery(result: "9 + 5")
     }
 
+    func testContinuedOperationNextEqual() throws {
+        app.buttons["1"].tap()
+        app.buttons["3"].tap()
+        app.buttons["x"].tap()
+        app.buttons["5"].tap()
+        app.buttons["="].tap()
+
+        app.buttons["+"].tap()
+        app.buttons["2"].tap()
+        app.buttons["="].tap()
+
+        app.textViews.containing(.staticText, identifier:"65 + 2 = 67")
+    }
+
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
             // This measures how long it takes to launch your application.
